@@ -9,6 +9,7 @@ namespace Pioneer.Logs.Models
         {
             AdditionalInfo = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Timestamp at moment log was created
         /// </summary>
