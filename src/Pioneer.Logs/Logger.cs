@@ -38,16 +38,15 @@ namespace Pioneer.Logs
         /// </summary>
         public static void WritePerf(LoggerDetail infoToLog)
         {
-            PerfLogger.Write(LogEventLevel.Information, "{@FlogDetail}", infoToLog);
+            PerfLogger.Write(LogEventLevel.Information, "{@LoggerDetial}", infoToLog);
         }
 
         /// <summary>
         /// What features are use most?
         /// </summary>
-        /// <param name="infoToLog"></param>
         public static void WriteUsage(LoggerDetail infoToLog)
         {
-            UsageLogger.Write(LogEventLevel.Information, "{@FlogDetail}", infoToLog);
+            UsageLogger.Write(LogEventLevel.Information, "{@LoggerDetial}", infoToLog);
         }
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace Pioneer.Logs
         /// </summary>
         public static void WriteError(LoggerDetail infoToLog)
         {
-            ErrorLogger.Write(LogEventLevel.Information, "{@FlogDetail}", infoToLog);
+            ErrorLogger.Write(LogEventLevel.Information, "{@LoggerDetial}", infoToLog);
         }
 
         /// <summary>
@@ -63,7 +62,7 @@ namespace Pioneer.Logs
         /// </summary>
         public static void WriteDiagnostic(LoggerDetail infoToLog)
         {
-            DiagnosticLogger.Write(LogEventLevel.Information, "{@FlogDetail}", infoToLog);
+            DiagnosticLogger.Write(LogEventLevel.Information, "{@LoggerDetial}", infoToLog);
         }
 
         /// <summary>
