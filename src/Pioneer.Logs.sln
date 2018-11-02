@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pioneer.Logs", "Pioneer.Logs\Pioneer.Logs.csproj", "{C2970AC3-415C-43D9-9489-591095AB2813}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2970AC3-415C-43D9-9489-591095AB2813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2970AC3-415C-43D9-9489-591095AB2813}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2970AC3-415C-43D9-9489-591095AB2813}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2970AC3-415C-43D9-9489-591095AB2813}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF0A2682-E42C-4235-BBE3-F8BE56D00DDF}
+	EndGlobalSection
+EndGlobal
