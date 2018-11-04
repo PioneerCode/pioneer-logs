@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Pioneer.Logs.Models;
 
-namespace Pioneer.Logs.Tubs.AspNetCore
+namespace Pioneer.Logs.Tubs.AspNetCoreApi
 {
     public static class Tub
     {
