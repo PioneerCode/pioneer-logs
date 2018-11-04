@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Pioneer.Logs.Models
 {
-    public class LoggerDetail
+    public class Log
     {
-        public LoggerDetail()
+        public Log()
         {
             AdditionalInfo = new Dictionary<string, object>();
         }

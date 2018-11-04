@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using Pioneer.Logs.Models;
 using Serilog;
 using Serilog.Events;
+using Log = Pioneer.Logs.Models.Log;
 
 namespace Pioneer.Logs
 {
@@ -36,7 +36,7 @@ namespace Pioneer.Logs
         /// <summary>
         /// Do we have any slow areas?
         /// </summary>
-        public static void WritePerf(LoggerDetail infoToLog)
+        public static void WritePerf(Log infoToLog)
         {
             PerfLogger.Write(LogEventLevel.Information, "{@LoggerDetial}", infoToLog);
         }
@@ -44,7 +44,7 @@ namespace Pioneer.Logs
         /// <summary>
         /// What features are use most?
         /// </summary>
-        public static void WriteUsage(LoggerDetail infoToLog)
+        public static void WriteUsage(Log infoToLog)
         {
             UsageLogger.Write(LogEventLevel.Information, "{@LoggerDetial}", infoToLog);
         }
@@ -52,7 +52,7 @@ namespace Pioneer.Logs
         /// <summary>
         /// Which errors occur the most?
         /// </summary>
-        public static void WriteError(LoggerDetail infoToLog)
+        public static void WriteError(Log infoToLog)
         {
             ErrorLogger.Write(LogEventLevel.Information, "{@LoggerDetial}", infoToLog);
         }
@@ -60,7 +60,7 @@ namespace Pioneer.Logs
         /// <summary>
         /// Ad-hoc trouble shooting
         /// </summary>
-        public static void WriteDiagnostic(LoggerDetail infoToLog)
+        public static void WriteDiagnostic(Log infoToLog)
         {
             DiagnosticLogger.Write(LogEventLevel.Information, "{@LoggerDetial}", infoToLog);
         }
@@ -70,7 +70,7 @@ namespace Pioneer.Logs
         /// </summary>
         public static void ClearLogger()
         {
-            Log.CloseAndFlush();
+            Serilog.Log.CloseAndFlush();
         }
     }
 }
