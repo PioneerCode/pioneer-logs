@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Pioneer.Logs.Tubs.AspNetCore;
 
 namespace Pioneer.Logs.Samples.AspNetCore
 {
@@ -40,6 +34,7 @@ namespace Pioneer.Logs.Samples.AspNetCore
                 app.UseHsts();
             }
 
+            app.UsePioneerLogs("Pioneer Logs", "Pioneer.Logs.Samples.AspNetCore");
             app.UseHttpsRedirection();
             app.UseMvc();
         }

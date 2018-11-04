@@ -11,9 +11,15 @@ namespace Pioneer.Logs.Tubs.AspNetCore
     public class PioneerLogsMiddleware
     {
         private readonly RequestDelegate _next;
+        private static string _applicationName;
+        private static string _applicationLayer;
 
-        public PioneerLogsMiddleware(RequestDelegate next)
+        public PioneerLogsMiddleware(RequestDelegate next, 
+            string applicationName,
+            string applicationLayer)
         {
+            _applicationName = applicationName;
+            _applicationLayer = applicationLayer;
             _next = next;
         }
 
@@ -34,7 +40,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            Tub.LogWebError("Application", "Layer", ex, context);
+            Tub.LogWebError(_applicationName, _applicationLayer, ex, context);
 
             var errorId = Activity.Current?.Id ?? context.TraceIdentifier;
             var jsonResponse = JsonConvert.SerializeObject(new ErrorResponse
