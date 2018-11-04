@@ -35,7 +35,7 @@ namespace Pioneer.Logs.Models
         /// - API: What endpoint did it derive from?
         /// - Service: What class.function did it derive from?
         /// </summary>
-        public string Location { get; set; }
+        public string ApplicationLocation { get; set; }
 
         /// <summary>
         /// Specific <see cref="Exception"/> message

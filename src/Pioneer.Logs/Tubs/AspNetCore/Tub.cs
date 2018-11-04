@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Pioneer.Logs.Models;
 
-namespace Pioneer.Logs.Tubs.AspNetCoreApi
+namespace Pioneer.Logs.Tubs.AspNetCore
 {
     public static class Tub
     {
@@ -68,7 +68,7 @@ namespace Pioneer.Logs.Tubs.AspNetCoreApi
             var request = context.Request;
             if (request == null) return;
 
-            detail.Location = request.Path;
+            detail.ApplicationLocation = request.Path;
             detail.AdditionalInfo.Add("UserAgent", request.Headers["User-Agent"]);
             detail.AdditionalInfo.Add("Languages", request.Headers["Accept-Language"]);
 
