@@ -8,7 +8,7 @@ using Pioneer.Logs.Models;
 
 namespace Pioneer.Logs.Tubs.AspNetCore
 {
-    public static class Tub
+    public static class PioneerLogsTub
     {
         public static void LogWebUsage(string application, 
             string layer, 
@@ -17,7 +17,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             Dictionary<string, object> additionalInfo = null)
         {
             var details = GetWeblogDetail(application, layer, activityName, context, additionalInfo);
-            Logger.WriteUsage(details);
+            PioneerLogger.WriteUsage(details);
         }
 
         public static void LogWebDiagnostic(string application, 
@@ -27,7 +27,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             Dictionary<string, object> diagnosticInfo = null)
         {
             var details = GetWeblogDetail(application, layer, message, context, diagnosticInfo);
-            Logger.WriteDiagnostic(details);
+            PioneerLogger.WriteDiagnostic(details);
         }
 
         public static void LogWebError(string application, 
@@ -38,16 +38,16 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             var details = GetWeblogDetail(application, layer, null, context, null);
             details.Exception = ex;
 
-            Logger.WriteError(details);
+            PioneerLogger.WriteError(details);
         }
 
-        public static Log GetWeblogDetail(string application, 
+        public static PioneerLog GetWeblogDetail(string application, 
             string layer,
             string activityName, 
             HttpContext context,
             Dictionary<string, object> additionalInfo = null)
         {
-            var detail = new Log
+            var detail = new PioneerLog
             {
                 ApplicationName = application,
                 ApplicationLayer = layer,
@@ -63,7 +63,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             return detail;
         }
 
-        private static void GetRequestData(Log detail, HttpContext context)
+        private static void GetRequestData(PioneerLog detail, HttpContext context)
         {
             var request = context.Request;
             if (request == null) return;
@@ -79,7 +79,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             }
         }
 
-        private static void GetUserData(Log detail, HttpContext context)
+        private static void GetUserData(PioneerLog detail, HttpContext context)
         {
             var userId = "";
             var userName = "";

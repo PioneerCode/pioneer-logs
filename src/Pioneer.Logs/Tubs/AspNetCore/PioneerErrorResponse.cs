@@ -2,7 +2,7 @@
 
 namespace Pioneer.Logs.Tubs.AspNetCore
 {
-    public class ErrorResponse
+    public class PioneerErrorResponse
     {
         public string ErrorId { get; set; }
         public string Message { get; set; }

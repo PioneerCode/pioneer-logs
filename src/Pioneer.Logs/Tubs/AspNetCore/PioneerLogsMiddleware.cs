@@ -4,22 +4,20 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Pioneer.Logs.Models;
 
 namespace Pioneer.Logs.Tubs.AspNetCore
 {
     public class PioneerLogsMiddleware
     {
         private readonly RequestDelegate _next;
-        private static string _applicationName;
-        private static string _applicationLayer;
+        private readonly PioneerLogsConfiguration _configuration;
 
-        public PioneerLogsMiddleware(RequestDelegate next, 
-            string applicationName,
-            string applicationLayer)
+        public PioneerLogsMiddleware(RequestDelegate next, IOptions<PioneerLogsConfiguration> configuration)
         {
-            _applicationName = applicationName;
-            _applicationLayer = applicationLayer;
+            _configuration = configuration.Value;
             _next = next;
         }
 
@@ -35,15 +33,15 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             }
         }
 
-        private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private async Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            Tub.LogWebError(_applicationName, _applicationLayer, ex, context);
+            PioneerLogsTub.LogWebError(_configuration.ApplicationName, _configuration.ApplicationLayer, ex, context);
 
             var errorId = Activity.Current?.Id ?? context.TraceIdentifier;
-            var jsonResponse = JsonConvert.SerializeObject(new ErrorResponse
+            var jsonResponse = JsonConvert.SerializeObject(new PioneerErrorResponse
             {
                 ErrorId = errorId,
                 Message = "Internal server error."

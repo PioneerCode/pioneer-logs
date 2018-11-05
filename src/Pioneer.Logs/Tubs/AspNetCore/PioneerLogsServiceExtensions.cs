@@ -1,0 +1,26 @@
+﻿using System;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Pioneer.Logs.Models;
+
+namespace Pioneer.Logs.Tubs.AspNetCore
+{
+    public static class PioneerLogsServiceExtensions
+    {
+        /// <summary>
+        /// Adds Configuration to <see cref="IServiceCollection"/> that is used to drive <see cref="PioneerLogger"/>.
+        /// </summary>
+        /// <param name="services">The services collection to configure.</param>
+        /// <param name="configuration"><see cref="PioneerLogsConfiguration"/> to drive settings for <see cref="PioneerLogger"/>.</param>
+        public static IServiceCollection AddPioneerLogs(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            _ = configuration ?? throw new ArgumentNullException(nameof(configuration));
+
+            // Bind from appsettings.json
+            services.Configure<PioneerLogsConfiguration>(configuration.Bind);
+
+            return services;
+        }
+    }
+}

@@ -9,7 +9,7 @@ namespace Pioneer.Logs.Samples.AspNetCore.Controllers
     public class ValuesController : ControllerBase
     {
         [HttpGet]
-        [Route("api/throw-test-exceptions")]
+        [Route("api/values")]
         public ActionResult<IEnumerable<string>> Get()
         {
             throw new Exception("Tester");
