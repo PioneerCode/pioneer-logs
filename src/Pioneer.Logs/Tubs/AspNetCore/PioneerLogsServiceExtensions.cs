@@ -10,7 +10,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         /// <summary>
         /// Adds Configuration to <see cref="IServiceCollection"/> that is used to drive <see cref="PioneerLogger"/>.
         /// </summary>
-        /// <param name="services">The services collection to configure.</param>
+        /// <param name="services">The <see cref="IServiceCollection"/> collection to configure to append to.</param>
         /// <param name="configuration"><see cref="PioneerLogsConfiguration"/> to drive settings for <see cref="PioneerLogger"/>.</param>
         public static IServiceCollection AddPioneerLogs(this IServiceCollection services,
             IConfiguration configuration)

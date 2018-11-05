@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Pioneer.Logs.Tubs.AspNetCore;
 using Serilog;
 
 namespace Pioneer.Logs.Models
 {
+    /// <summary>
+    /// Configuration for <see cref="PioneerLogsTub"/> <see cref="ILogger"/> sinks.
+    /// https://github.com/serilog/serilog/wiki/Provided-Sinks
+    /// </summary>
     public class PioneerLogsTubConfiguration
     {
         public ILogger PerforamnceLogger { get; set; }

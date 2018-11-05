@@ -53,7 +53,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                 ApplicationLayer = layer,
                 Message = activityName,
                 Hostname = Environment.MachineName,
-                CorrelationId = Activity.Current?.Id ?? context.TraceIdentifier,
+                TraceId = Activity.Current?.Id ?? context.TraceIdentifier,
                 AdditionalInfo = additionalInfo ?? new Dictionary<string, object>()
             };
 

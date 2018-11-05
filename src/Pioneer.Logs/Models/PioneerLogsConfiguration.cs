@@ -1,5 +1,8 @@
 ﻿namespace Pioneer.Logs.Models
 {
+    /// <summary>
+    /// Pioneer Log specific configuration
+    /// </summary>
     public class PioneerLogsConfiguration
     {
         /// <summary>

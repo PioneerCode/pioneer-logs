@@ -3,12 +3,20 @@ using System.Collections.Generic;
 
 namespace Pioneer.Logs.Models
 {
+    /// <summary>
+    /// Base class for all logging objects
+    /// </summary>
     public class PioneerLog
     {
         public PioneerLog()
         {
             AdditionalInfo = new Dictionary<string, object>();
         }
+
+        /// <summary>
+        /// Internal UID if needed
+        /// </summary>
+        public Guid? Id { get; set; }
 
         /// <summary>
         /// Timestamp at moment log was created
@@ -52,7 +60,8 @@ namespace Pioneer.Logs.Models
         /// Associated user ID
         ///
         /// Examples
-        /// - Web: Logged in user id
+        /// - Web: Logged in user ID
+        /// - Service: Instance ID
         /// </summary>
         public string UserId { get; set; }
 
@@ -61,17 +70,19 @@ namespace Pioneer.Logs.Models
         ///
         /// Examples
         /// - Web: User name associated with id
+        /// - Service: Instance Name
         /// </summary>
         public string UserName { get; set; }
 
         /// <summary>
-        /// Only for performance entries
+        /// Elapsed Milliseconds of performance tracking
         /// </summary>
         public long? PerformanceElapsedMilliseconds { get; set; }
 
         /// <summary>
         /// Optional category
-        /// Typically something the is derived from the BL level
+        /// Typically something the is derived from the BL level.
+        /// Could be a log-level if necessary.
         /// </summary>
         public string Category { get; set; }
 
@@ -81,9 +92,12 @@ namespace Pioneer.Logs.Models
         public Exception Exception { get; set; }
 
         /// <summary>
-        /// Exception tracing from server to client
+        /// When dealing with a multi-layer system,...
+        /// - Browser => API
+        /// - Service => Service
+        /// ...use this to trace a "story" through that system
         /// </summary>
-        public string CorrelationId { get; set; }
+        public string TraceId { get; set; }
 
         /// <summary>
         /// Key value for unique entries

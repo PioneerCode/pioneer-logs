@@ -41,9 +41,9 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             PioneerLogsTub.LogWebError(_configuration.ApplicationName, _configuration.ApplicationLayer, ex, context);
 
             var errorId = Activity.Current?.Id ?? context.TraceIdentifier;
-            var jsonResponse = JsonConvert.SerializeObject(new PioneerErrorResponse
+            var jsonResponse = JsonConvert.SerializeObject(new PioneerLogsErrorResponse
             {
-                ErrorId = errorId,
+                TraceId = errorId,
                 Message = "Internal server error."
             });
 

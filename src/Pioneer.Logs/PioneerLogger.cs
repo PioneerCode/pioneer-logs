@@ -5,6 +5,9 @@ using PioneerLog = Pioneer.Logs.Models.PioneerLog;
 
 namespace Pioneer.Logs
 {
+    /// <summary>
+    /// Base Logger that sites on top of <see cref="Serilog"/>
+    /// </summary>
     public static class PioneerLogger
     {
         public static ILogger PerforamnceLogger;
