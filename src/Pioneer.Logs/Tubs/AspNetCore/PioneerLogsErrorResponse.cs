@@ -20,9 +20,9 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         public string Message { get; set; }
 
         /// <summary>
-        /// Serialize this to json string
+        /// Serialize "this" to json string
         /// </summary>
-        /// <returns>JSON string of "this".</returns>
+        /// <returns>Serialized string of "this".</returns>
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
