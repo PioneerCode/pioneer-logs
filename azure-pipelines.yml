@@ -16,6 +16,8 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: pack
+    configuration: 'release'
+    packagesToPack: src/Pioneer.Logs/Pioneer.Logs.csproj
     versioningScheme: byPrereleaseNumber
     majorVersion: '$(Major)'
     minorVersion: '$(Minor)'
