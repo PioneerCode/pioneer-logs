@@ -12,6 +12,7 @@ variables:
   Minor: '1'
   Patch: '0'
 
+steps:
 - task: NuGetCommand@2
   inputs:
     command: pack
