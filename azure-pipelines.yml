@@ -31,7 +31,7 @@ variables:
 #     publishFeedCredentials: pioneer-logs
 
 steps:
-- script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration)
+- script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=${Major}.${Minor}.${Patch} --version-suffix "${Build.BuildNumber}"
   displayName: 'dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration)'
 
 - script: dotnet nuget push $(build.artifactStagingDirectory)/*.nupkg -k ${nuget} -s https://api.nuget.org/v3/index.json
