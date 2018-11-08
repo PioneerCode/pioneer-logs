@@ -12,6 +12,15 @@ variables:
   Minor: '1'
   Patch: '0'
 
+- task: NuGetCommand@2
+  inputs:
+    command: pack
+    packagesToPack: 'src/Pioneer.Logs/Pioneer.Logs.csproj'
+    versioningScheme: byPrereleaseNumber
+    majorVersion: '$(Major)'
+    minorVersion: '$(Minor)'
+    patchVersion: '$(Patch)'
+
 # steps:
 # - task: DotNetCoreCLI@2
 #   inputs:
@@ -30,9 +39,9 @@ variables:
 #     packagesToPush: '$(build.artifactStagingDirectory)/*.nupkg'
 #     publishFeedCredentials: pioneer-logs
 
-steps:
-- script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=${Major}.${Minor}.${Patch} --version-suffix "${Build.BuildNumber}"
-  displayName: 'dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration)'
+# steps:
+# - script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=${Major}.${Minor}.${Patch} --version-suffix "${Build.BuildNumber}"
+#   displayName: 'dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=${Major}.${Minor}.${Patch} --version-suffix "${Build.BuildNumber}'
 
-- script: dotnet nuget push $(build.artifactStagingDirectory)/*.nupkg -k ${nuget} -s https://api.nuget.org/v3/index.json
-  displayName: 'dotnet nuget push $(build.artifactStagingDirectory)/*.nupkg'
+# - script: dotnet nuget push $(build.artifactStagingDirectory)/*.nupkg -k ${nuget} -s https://api.nuget.org/v3/index.json
+#   displayName: 'dotnet nuget push $(build.artifactStagingDirectory)/*.nupkg'
