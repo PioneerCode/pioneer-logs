@@ -14,7 +14,7 @@ variables:
   Counter: $[counter('versioncounter')]
   
 steps:
-- script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=$(Major).$(Minor).$(Patch)$(Counter)'
+- script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=$(Major).$(Minor).$(Patch)$(Counter)
   displayName: 'dotnet pack'
 
 - task: CopyFiles@2
@@ -24,7 +24,7 @@ steps:
       /**/*.nupkg
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     FlattenFolders: true
-  displayName: 'Public Assets: Move Fonts'
+  displayName: 'Copy Artifacts'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
