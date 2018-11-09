@@ -11,7 +11,8 @@ variables:
   buildConfiguration: 'Release'
   Major: '0'
   Minor: '1'
-  Patch: '0-alpha-$[counter('versioncounter')]'
+  Patch: '0-alpha-'
+  Counter: $[counter('versioncounter')]
   
 # steps:
 # - task: DotNetCoreCLI@2
@@ -31,7 +32,7 @@ variables:
 #     publishFeedCredentials: pioneer-logs
 
 steps:
-- script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=$(Major).$(Minor).$(Patch)'
+- script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=$(Major).$(Minor).$(Patch)$(Counter)'
   displayName: 'dotnet pack'
 
 - task: CopyFiles@2
