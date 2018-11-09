@@ -32,10 +32,15 @@ variables:
 #     publishFeedCredentials: pioneer-logs
 
 steps:
-- script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=$(Major).$(Minor).$(Patch) --version-suffix $(Suffix)
+- script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=$(Major).$(Minor).$(Patch) --version-suffix '-$(Suffix)'
   displayName: 'dotnet pack'
 
-# Publish all build artifacts
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/wwwroot/fonts'
+    FlattenFolders: true
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
 
