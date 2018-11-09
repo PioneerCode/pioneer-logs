@@ -38,8 +38,11 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/wwwroot/fonts'
+    Contents: |
+      /**/*.nupkg
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
     FlattenFolders: true
+  displayName: 'Public Assets: Move Fonts'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
