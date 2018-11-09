@@ -6,7 +6,6 @@
 pool:
   vmImage: 'Ubuntu 16.04'
 
-name: $(Date:yyyyMMdd).$(Rev:.r)
 variables:
   buildConfiguration: 'Release'
   Major: '0'
@@ -14,23 +13,6 @@ variables:
   Patch: '0-alpha-'
   Counter: $[counter('versioncounter')]
   
-# steps:
-# - task: DotNetCoreCLI@2
-#   inputs:
-#     command: pack
-#     packagesToPack: 'src/Pioneer.Logs/Pioneer.Logs.csproj'
-#     versioningScheme: byPrereleaseNumber
-#     majorVersion: '$(Major)'
-#     minorVersion: '$(Minor)'
-#     patchVersion: '$(Patch)'
-
-# - task: DotNetCoreCLI@2
-#   inputs:
-#     command: push
-#     nuGetFeedType: external
-#     packagesToPush: '$(build.artifactStagingDirectory)/*.nupkg'
-#     publishFeedCredentials: pioneer-logs
-
 steps:
 - script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=$(Major).$(Minor).$(Patch)$(Counter)'
   displayName: 'dotnet pack'
@@ -46,8 +28,3 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
-
-# - script: dotnet nuget push $(build.artifactStagingDirectory)/*.nupkg -k $(nuget) -s https://api.nuget.org/v3/index.json
-#   displayName: 'dotnet nuget push $(build.artifactStagingDirectory)/*.nupkg'
-
-
