@@ -31,7 +31,7 @@ variables:
 
 steps:
 - script: dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=$(Major).$(Minor).$(Patch) --version-suffix $(pioneer-logs-build)
-  displayName: 'dotnet pack src/Pioneer.Logs/Pioneer.Logs.csproj -c $(buildConfiguration) -p:PackageVersion=$(Major).$(Minor).$(Patch) --version-suffix $(pioneer-logs-build)'
+  displayName: 'dotnet pack'
 
 # - script: dotnet nuget push $(build.artifactStagingDirectory)/*.nupkg -k $(nuget) -s https://api.nuget.org/v3/index.json
 #   displayName: 'dotnet nuget push $(build.artifactStagingDirectory)/*.nupkg'
