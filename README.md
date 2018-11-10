@@ -57,7 +57,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 #### Configure Sinks
 
 You can override all log writer Sinks, by providing a configuration option to the Middleware. 
-For a list of Sinks and how to configure them is available at [Serilog Sinks](https://github.com/serilog/serilog/wiki/Provided-Sinks).
+A list of Sinks and how to configure them is available at [Serilog Sinks](https://github.com/serilog/serilog/wiki/Provided-Sinks).
 
 ```csharp
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
