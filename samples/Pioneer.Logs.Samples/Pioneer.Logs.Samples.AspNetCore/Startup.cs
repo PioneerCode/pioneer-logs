@@ -38,7 +38,7 @@ namespace Pioneer.Logs.Samples.AspNetCore
             }
 
             app.UsePioneerLogs(new PioneerLogsTubConfiguration {
-                PerforamnceLogger = new LoggerConfiguration()
+                PerformanceLogger = new LoggerConfiguration()
                     .WriteTo.File(path: @"logs\2performance.txt", rollingInterval: RollingInterval.Day)
                     .CreateLogger(),
                 UsageLogger = new LoggerConfiguration()

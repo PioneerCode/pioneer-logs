@@ -15,11 +15,15 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         /// </summary>
         /// <param name="app"><inheritdoc cref="IApplicationBuilder"/></param>
         /// <param name="configuration"><inheritdoc cref="PioneerLogsTubConfiguration"/></param>
-        public static void UsePioneerLogs(this IApplicationBuilder app, PioneerLogsTubConfiguration configuration)
+        public static void UsePioneerLogs(this IApplicationBuilder app, PioneerLogsTubConfiguration configuration = null)
         {
             // Set default by way of constructor before attempting overrides. 
             RuntimeHelpers.RunClassConstructor(typeof(PioneerLogger).TypeHandle);
-            SetLoggers(configuration);
+
+            if (configuration != null)
+            {
+                SetLoggers(configuration);
+            }
 
             app.UseMiddleware<PioneerLogsMiddleware>();
         }
@@ -31,7 +35,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         private static void SetLoggers(PioneerLogsTubConfiguration configuration)
         {
             PioneerLogger.DiagnosticLogger = configuration.DiagnosticLogger ?? PioneerLogger.DiagnosticLogger;
-            PioneerLogger.PerforamnceLogger = configuration.PerforamnceLogger ?? PioneerLogger.PerforamnceLogger;
+            PioneerLogger.PerformanceLogger = configuration.PerformanceLogger ?? PioneerLogger.PerformanceLogger;
             PioneerLogger.UsageLogger = configuration.UsageLogger ?? PioneerLogger.UsageLogger;
             PioneerLogger.ErrorLogger = configuration.ErrorLogger ?? PioneerLogger.ErrorLogger;
         }

@@ -9,7 +9,7 @@ namespace Pioneer.Logs.Models
     /// </summary>
     public class PioneerLogsTubConfiguration
     {
-        public ILogger PerforamnceLogger { get; set; }
+        public ILogger PerformanceLogger { get; set; }
         public ILogger UsageLogger { get; set; }
         public ILogger ErrorLogger { get; set; }
         public ILogger DiagnosticLogger { get; set; }

@@ -10,14 +10,14 @@ namespace Pioneer.Logs
     /// </summary>
     public static class PioneerLogger
     {
-        public static ILogger PerforamnceLogger;
+        public static ILogger PerformanceLogger;
         public static ILogger UsageLogger;
         public static ILogger ErrorLogger;
         public static ILogger DiagnosticLogger;
 
         static PioneerLogger()
         {
-            PerforamnceLogger = new LoggerConfiguration()
+            PerformanceLogger = new LoggerConfiguration()
                   .WriteTo.File(path: @"logs\performance.txt", rollingInterval: RollingInterval.Day)
                   .CreateLogger();
 
@@ -41,7 +41,7 @@ namespace Pioneer.Logs
         /// </summary>
         public static void WritePerf(PioneerLog infoToLog)
         {
-            PerforamnceLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
+            PerformanceLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
         }
 
         /// <summary>
