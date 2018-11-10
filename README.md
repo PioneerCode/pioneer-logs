@@ -1,5 +1,7 @@
 # Pioneer Logs
 
+[![Build Status](https://dev.azure.com/pioneer-code/Pioneer%20Logs/_apis/build/status/PioneerCode.pioneer-logs)](https://dev.azure.com/pioneer-code/Pioneer%20Logs/_build/latest?definitionId=3)
+
 [PioneerCode/pioneer-logs](https://github.com/PioneerCode/pioneer-logs) is a an opinionated abstraction over [Serilog](https://github.com/serilog/serilog) that provides an out of the box solution for error, usage, performance, and diagnostic logging. Platform and Framework specific implementation is managed through [Tubs], a predefined set of abstractions that you configure and plug into your application.  
 
 
