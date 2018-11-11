@@ -81,3 +81,17 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 }
 
 ```
+
+#### Add-Hoc Usage Tracking
+
+You can supply a filter to any of your methods that you would like to track Usage on.
+
+```
+[HttpGet]
+[Route("api/exception")]
+[PioneerLogsTrackUsage(ActivityName = "Exception Get")]
+public ActionResult<IEnumerable<string>> Get()
+{
+    throw new Exception("Force Exception");
+}
+```
