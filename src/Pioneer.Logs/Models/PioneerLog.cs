@@ -114,7 +114,12 @@ namespace Pioneer.Logs.Models
         /// </summary>
         private static string GetMessageFromException(Exception ex)
         {
-            return ex.InnerException != null ? GetMessageFromException(ex.InnerException) : ex.Message;
+            if (ex != null)
+            {
+                return ex.InnerException != null ? GetMessageFromException(ex.InnerException) : ex.Message;
+            }
+
+            return string.Empty;
         }
     }
 }

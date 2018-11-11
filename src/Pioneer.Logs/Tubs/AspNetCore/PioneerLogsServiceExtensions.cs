@@ -19,6 +19,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
             // Bind from appsettings.json
             services.Configure<PioneerLogsConfiguration>(configuration.Bind);
+            services.AddScoped<PioneerLogsTrackUsageAttribute>();
 
             return services;
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Pioneer.Logs.Models;
 
@@ -11,18 +12,16 @@ namespace Pioneer.Logs.Tubs.AspNetCore
     /// </summary>
     public class PioneerLogsTrackUsageAttribute : ActionFilterAttribute
     {
-        private readonly string _activityName;
+        public string ActivityName { get; set; }
+
         private readonly PioneerLogsConfiguration _configuration;
 
         /// <summary>
-        /// Create usage tracking log. 
+        /// Create usage tracking log.
         /// </summary>
-        /// <param name="activityName">Identifying name of activity we are tracking.</param>
-        /// <param name="configuration">appsettings.json => PioneerLogsConfiguration</param>
-        public PioneerLogsTrackUsageAttribute(string activityName, IOptions<PioneerLogsConfiguration> configuration)
+        public PioneerLogsTrackUsageAttribute(IOptions<PioneerLogsConfiguration> configuration)
         {
             _configuration = configuration.Value;
-            _activityName = activityName;
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)
@@ -36,7 +35,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                 }
             }
 
-            PioneerLogsTub.LogUsage(_configuration.ApplicationName, _configuration.ApplicationLayer, _activityName, context.HttpContext, dict);
+            PioneerLogsTub.LogUsage(_configuration.ApplicationName, _configuration.ApplicationLayer, ActivityName, context.HttpContext, dict);
         }
     }
 }

@@ -37,21 +37,7 @@ namespace Pioneer.Logs.Samples.AspNetCore
                 app.UseHsts();
             }
 
-            app.UsePioneerLogs(new PioneerLogsTubConfiguration {
-                PerformanceLogger = new LoggerConfiguration()
-                    .WriteTo.File(path: @"logs\2performance.txt", rollingInterval: RollingInterval.Day)
-                    .CreateLogger(),
-                UsageLogger = new LoggerConfiguration()
-                    .WriteTo.File(path: @"logs\2usage.txt", rollingInterval: RollingInterval.Day)
-                    .CreateLogger(),
-                ErrorLogger = new LoggerConfiguration()
-                    .WriteTo.File(path: @"logs\2error.txt", rollingInterval: RollingInterval.Day)
-                    .CreateLogger(),
-                DiagnosticLogger = new LoggerConfiguration()
-                    .WriteTo.File(path: @"logs\2diagnostic.txt", rollingInterval: RollingInterval.Day)
-                    .CreateLogger()
-            });
-
+            app.UsePioneerLogs();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -61,7 +61,8 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                 Message = activityName,
                 Hostname = Environment.MachineName,
                 TraceId = Activity.Current?.Id ?? context.TraceIdentifier,
-                AdditionalInfo = additionalInfo ?? new Dictionary<string, object>()
+                AdditionalInfo = additionalInfo ?? new Dictionary<string, object>(),
+                CreationTimestamp = DateTime.UtcNow
             };
 
             GetUserData(detail, context);
