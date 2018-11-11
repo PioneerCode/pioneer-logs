@@ -8,9 +8,12 @@ using Pioneer.Logs.Models;
 
 namespace Pioneer.Logs.Tubs.AspNetCore
 {
+    /// <summary>
+    /// ASP.NET Core logging wrapper.
+    /// </summary>
     public static class PioneerLogsTub
     {
-        public static void LogWebUsage(string application, 
+        public static void LogUsage(string application, 
             string layer, 
             string activityName,
             HttpContext context, 
@@ -20,7 +23,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             PioneerLogger.WriteUsage(details);
         }
 
-        public static void LogWebDiagnostic(string application, 
+        public static void LogDiagnostic(string application, 
             string layer, 
             string message,
             HttpContext context, 
@@ -30,19 +33,20 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             PioneerLogger.WriteDiagnostic(details);
         }
 
-        public static void LogWebError(string application, 
+        public static void LogError(string application, 
             string layer, 
             Exception ex,
             HttpContext context)
         {
-            var details = GetTubDetail(application, layer, null, context, null);
+            var details = GetTubDetail(application, layer, null, context);
             details.Exception = ex;
 
             PioneerLogger.WriteError(details);
         }
 
         /// <summary>
-        /// 
+        /// Get as <see cref="PioneerLog"/> object pre-populated with details parsed
+        /// from the ASP.NET Core environment.
         /// </summary>
         public static PioneerLog GetTubDetail(string application, 
             string layer,
@@ -66,22 +70,32 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             return detail;
         }
 
+        /// <summary>
+        /// Gather details about the request made to this HTTP pipeline request.
+        /// </summary>
         private static void GetRequestData(PioneerLog detail, HttpContext context)
         {
-            var request = context.Request;
-            if (request == null) return;
+            if (context.Request == null) return;
 
-            detail.ApplicationLocation = request.Path;
-            detail.AdditionalInfo.Add("UserAgent", request.Headers["User-Agent"]);
-            detail.AdditionalInfo.Add("Languages", request.Headers["Accept-Language"]);
+            detail.ApplicationLocation = context.Request.Path;
+            detail.AdditionalInfo.Add("UserAgent", context.Request.Headers["User-Agent"]);
+            detail.AdditionalInfo.Add("Languages", context.Request.Headers["Accept-Language"]);
 
-            var qdict = QueryHelpers.ParseQuery(request.QueryString.ToString());
+            ExtractQueryStringIntoAdditionalInfo(detail, context);
+        }
+
+        private static void ExtractQueryStringIntoAdditionalInfo(PioneerLog detail, HttpContext context)
+        {
+            var qdict = QueryHelpers.ParseQuery(context.Request.QueryString.ToString());
             foreach (var key in qdict.Keys)
             {
                 detail.AdditionalInfo.Add($"QueryString-{key}", qdict[key]);
             }
         }
 
+        /// <summary>
+        /// Gather details about current user associate with this HTTP pipeline request.
+        /// </summary>
         private static void GetUserData(PioneerLog detail, HttpContext context)
         {
             var userId = "";

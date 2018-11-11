@@ -10,6 +10,9 @@ using Pioneer.Logs.Models;
 
 namespace Pioneer.Logs.Tubs.AspNetCore
 {
+    /// <summary>
+    /// ASP.NET Core Middleware used to handle <see cref="Exception"/>'s at a global level.
+    /// </summary>
     public class PioneerLogsMiddleware
     {
         private readonly RequestDelegate _next;
@@ -38,7 +41,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            PioneerLogsTub.LogWebError(_configuration.ApplicationName, _configuration.ApplicationLayer, ex, context);
+            PioneerLogsTub.LogError(_configuration.ApplicationName, _configuration.ApplicationLayer, ex, context);
 
             var errorId = Activity.Current?.Id ?? context.TraceIdentifier;
             var jsonResponse = JsonConvert.SerializeObject(new PioneerLogsErrorResponse
