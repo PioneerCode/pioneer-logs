@@ -86,7 +86,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 You can supply a filter to any of your methods that you would like to track Usage on.
 
-```
+```csharp
 [HttpGet]
 [Route("api/exception")]
 [PioneerLogsTrackUsage(ActivityName = "Exception Get")]
