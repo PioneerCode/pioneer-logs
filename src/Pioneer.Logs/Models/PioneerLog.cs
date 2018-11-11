@@ -102,7 +102,7 @@ namespace Pioneer.Logs.Models
         /// - Service => Service
         /// ...use this to trace a "story" through that system
         /// </summary>
-        public string TraceId { get; set; }
+        public string CorrelationId { get; set; }
 
         /// <summary>
         /// Key value for unique entries

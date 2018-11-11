@@ -10,7 +10,7 @@ namespace Pioneer.Logs.Samples.AspNetCore.Controllers
     {
         [HttpGet]
         [Route("api/exception")]
-        [PioneerLogsTrackUsageFactory(ActivityName = "Something")]
+        [PioneerLogsTrackUsage(ActivityName = "TestController Get")]
         public ActionResult<IEnumerable<string>> Get()
         {
             throw new Exception("Force Exception");

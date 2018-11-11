@@ -13,32 +13,32 @@ namespace Pioneer.Logs.Tubs.AspNetCore
     /// </summary>
     public static class PioneerLogsTub
     {
-        public static void LogUsage(string application, 
-            string layer, 
-            string activityName,
-            HttpContext context, 
+        public static PioneerLogsConfiguration Configuration { get; set; }
+
+        static PioneerLogsTub()
+        {
+            Configuration = new PioneerLogsConfiguration();
+        }
+
+        public static void LogUsage(string activityName,
+            HttpContext context,
             Dictionary<string, object> additionalInfo = null)
         {
-            var details = GetTubDetail(application, layer, activityName, context, additionalInfo);
+            var details = GetTubDetail(activityName, context, additionalInfo);
             PioneerLogger.WriteUsage(details);
         }
 
-        public static void LogDiagnostic(string application, 
-            string layer, 
-            string message,
-            HttpContext context, 
+        public static void LogDiagnostic(string message,
+            HttpContext context,
             Dictionary<string, object> diagnosticInfo = null)
         {
-            var details = GetTubDetail(application, layer, message, context, diagnosticInfo);
+            var details = GetTubDetail(message, context, diagnosticInfo);
             PioneerLogger.WriteDiagnostic(details);
         }
 
-        public static void LogError(string application, 
-            string layer, 
-            Exception ex,
-            HttpContext context)
+        public static void LogError(Exception ex, HttpContext context)
         {
-            var details = GetTubDetail(application, layer, null, context);
+            var details = GetTubDetail(null, context);
             details.Exception = ex;
 
             PioneerLogger.WriteError(details);
@@ -48,19 +48,17 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         /// Get as <see cref="PioneerLog"/> object pre-populated with details parsed
         /// from the ASP.NET Core environment.
         /// </summary>
-        public static PioneerLog GetTubDetail(string application, 
-            string layer,
-            string activityName, 
+        public static PioneerLog GetTubDetail(string activityName,
             HttpContext context,
             Dictionary<string, object> additionalInfo = null)
         {
             var detail = new PioneerLog
             {
-                ApplicationName = application,
-                ApplicationLayer = layer,
+                ApplicationName = Configuration.ApplicationName,
+                ApplicationLayer = Configuration.ApplicationLayer,
                 Message = activityName,
                 Hostname = Environment.MachineName,
-                TraceId = Activity.Current?.Id ?? context.TraceIdentifier,
+                CorrelationId = Activity.Current?.Id ?? context.TraceIdentifier,
                 AdditionalInfo = additionalInfo ?? new Dictionary<string, object>(),
                 CreationTimestamp = DateTime.UtcNow
             };

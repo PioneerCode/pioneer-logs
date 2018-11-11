@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Pioneer.Logs.Models;
 using Pioneer.Logs.Tubs.AspNetCore;
-using Serilog;
 
 namespace Pioneer.Logs.Samples.AspNetCore
 {

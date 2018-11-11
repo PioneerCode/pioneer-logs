@@ -41,7 +41,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            PioneerLogsTub.LogError(_configuration.ApplicationName, _configuration.ApplicationLayer, ex, context);
+            PioneerLogsTub.LogError(ex, context);
 
             var errorId = Activity.Current?.Id ?? context.TraceIdentifier;
             var jsonResponse = JsonConvert.SerializeObject(new PioneerLogsErrorResponse

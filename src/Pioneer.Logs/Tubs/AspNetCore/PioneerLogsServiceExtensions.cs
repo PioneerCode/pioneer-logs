@@ -17,9 +17,10 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         {
             _ = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
-            // Bind from appsettings.json
             services.Configure<PioneerLogsConfiguration>(configuration.Bind);
-            services.AddScoped<PioneerLogsTrackUsageAttribute>();
+
+            PioneerLogsTub.Configuration.ApplicationName = configuration["ApplicationName"];
+            PioneerLogsTub.Configuration.ApplicationLayer = configuration["ApplicationLayer"];
 
             return services;
         }
