@@ -16,7 +16,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             HttpContext context, 
             Dictionary<string, object> additionalInfo = null)
         {
-            var details = GetWeblogDetail(application, layer, activityName, context, additionalInfo);
+            var details = GetTubDetail(application, layer, activityName, context, additionalInfo);
             PioneerLogger.WriteUsage(details);
         }
 
@@ -26,7 +26,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             HttpContext context, 
             Dictionary<string, object> diagnosticInfo = null)
         {
-            var details = GetWeblogDetail(application, layer, message, context, diagnosticInfo);
+            var details = GetTubDetail(application, layer, message, context, diagnosticInfo);
             PioneerLogger.WriteDiagnostic(details);
         }
 
@@ -35,13 +35,16 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             Exception ex,
             HttpContext context)
         {
-            var details = GetWeblogDetail(application, layer, null, context, null);
+            var details = GetTubDetail(application, layer, null, context, null);
             details.Exception = ex;
 
             PioneerLogger.WriteError(details);
         }
 
-        public static PioneerLog GetWeblogDetail(string application, 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static PioneerLog GetTubDetail(string application, 
             string layer,
             string activityName, 
             HttpContext context,

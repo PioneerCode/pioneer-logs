@@ -46,7 +46,7 @@ namespace Pioneer.Logs.Models
         public string ApplicationLocation { get; set; }
 
         /// <summary>
-        /// Specific <see cref="Exception"/> message
+        /// User supplied message
         /// </summary>
         public string Message { get; set; }
 
@@ -87,9 +87,14 @@ namespace Pioneer.Logs.Models
         public string Category { get; set; }
 
         /// <summary>
-        /// Source <see cref="Exception"/> thrown
+        /// Source <see cref="Exception"/> thrown.
         /// </summary>
         public Exception Exception { get; set; }
+
+        /// <summary>
+        /// Lowest message in Inner <see cref="Exception"/> hierarchy.
+        /// </summary>
+        public string ExceptionMessage => GetMessageFromException(Exception);
 
         /// <summary>
         /// When dealing with a multi-layer system,...
@@ -103,5 +108,13 @@ namespace Pioneer.Logs.Models
         /// Key value for unique entries
         /// </summary>
         public Dictionary<string, object> AdditionalInfo { get; set; }
+
+        /// <summary>
+        /// Get lowest message in Inner <see cref="Exception"/> hierarchy.
+        /// </summary>
+        private static string GetMessageFromException(Exception ex)
+        {
+            return ex.InnerException != null ? GetMessageFromException(ex.InnerException) : ex.Message;
+        }
     }
 }
