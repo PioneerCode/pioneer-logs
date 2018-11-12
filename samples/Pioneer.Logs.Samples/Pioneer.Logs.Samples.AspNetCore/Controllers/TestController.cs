@@ -13,6 +13,9 @@ namespace Pioneer.Logs.Samples.AspNetCore.Controllers
         [PioneerLogsTrackUsage(ActivityName = "TestController Get")]
         public ActionResult<IEnumerable<string>> Get()
         {
+            PioneerLogsTub.LogDiagnostic("Test diagnostic log....", 
+                HttpContext,
+                new Dictionary<string, object> { { "Test", "Parameter" } });
             throw new Exception("Force Exception");
         }
     }

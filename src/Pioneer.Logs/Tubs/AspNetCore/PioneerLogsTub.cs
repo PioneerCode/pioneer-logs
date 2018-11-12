@@ -30,14 +30,14 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
         public static void LogDiagnostic(string message,
             HttpContext context,
-            Dictionary<string, object> diagnosticInfo = null)
+            Dictionary<string, object> additionalInfo = null)
         {
             if (!Configuration.WriteDiagnostics)
             {
                 return;
             }
 
-            var details = GetTubDetail(message, context, diagnosticInfo);
+            var details = GetTubDetail(message, context, additionalInfo);
             PioneerLogger.WriteDiagnostic(details);
         }
 

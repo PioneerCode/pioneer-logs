@@ -20,7 +20,9 @@ namespace Pioneer.Logs.Samples.AspNetCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddPioneerLogs(Configuration.GetSection("PioneerLogsConfiguration"));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options => 
+                    options.Filters.Add(new PioneerLogsPerformanceFilter()))
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
