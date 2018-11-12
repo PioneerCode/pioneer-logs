@@ -36,7 +36,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -46,7 +46,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             var errorId = Activity.Current?.Id ?? context.TraceIdentifier;
             var jsonResponse = JsonConvert.SerializeObject(new PioneerLogsErrorResponse
             {
-                TraceId = errorId,
+                CorrelationId = errorId,
                 Message = "Internal server error."
             });
 

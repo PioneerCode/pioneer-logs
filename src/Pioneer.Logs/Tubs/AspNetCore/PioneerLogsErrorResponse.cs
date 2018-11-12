@@ -12,7 +12,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         /// tracer to other logs with deeper details
         /// - Browser: API error
         /// </summary>
-        public string TraceId { get; set; }
+        public string CorrelationId { get; set; }
 
         /// <summary>
         /// Custom message
