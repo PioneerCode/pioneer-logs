@@ -34,10 +34,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         /// <param name="configuration"><see cref="PioneerLogsTubConfiguration"/></param>
         private static void SetLoggers(PioneerLogsTubConfiguration configuration)
         {
-            PioneerLogger.DiagnosticLogger = configuration.DiagnosticLogger ?? PioneerLogger.DiagnosticLogger;
-            PioneerLogger.PerformanceLogger = configuration.PerformanceLogger ?? PioneerLogger.PerformanceLogger;
-            PioneerLogger.UsageLogger = configuration.UsageLogger ?? PioneerLogger.UsageLogger;
-            PioneerLogger.ErrorLogger = configuration.ErrorLogger ?? PioneerLogger.ErrorLogger;
+            PioneerLogger.SetLoggers(configuration);
         }
     }
 }

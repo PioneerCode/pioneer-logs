@@ -20,11 +20,11 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             Configuration = new PioneerLogsConfiguration();
         }
 
-        public static void LogUsage(string activityName,
+        public static void LogUsage(string message,
             HttpContext context,
             Dictionary<string, object> additionalInfo = null)
         {
-            var details = GetTubDetail(activityName, context, additionalInfo);
+            var details = GetTubDetail(message, context, additionalInfo);
             PioneerLogger.WriteUsage(details);
         }
 
@@ -53,7 +53,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         /// Get as <see cref="PioneerLog"/> object pre-populated with details parsed
         /// from the ASP.NET Core environment.
         /// </summary>
-        public static PioneerLog GetTubDetail(string activityName,
+        public static PioneerLog GetTubDetail(string message,
             HttpContext context,
             Dictionary<string, object> additionalInfo = null)
         {
@@ -61,7 +61,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             {
                 ApplicationName = Configuration.ApplicationName,
                 ApplicationLayer = Configuration.ApplicationLayer,
-                Message = activityName,
+                Message = message,
                 Hostname = Environment.MachineName,
                 CorrelationId = Activity.Current?.Id ?? context.TraceIdentifier,
                 AdditionalInfo = additionalInfo ?? new Dictionary<string, object>(),

@@ -9,7 +9,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
     /// </summary>
     public class PioneerLogsTrackUsageAttribute : ActionFilterAttribute
     {
-        public string ActivityName { get; set; }
+        public string Message { get; set; }
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
@@ -22,7 +22,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                 }
             }
 
-            PioneerLogsTub.LogUsage(ActivityName, context.HttpContext, dict);
+            PioneerLogsTub.LogUsage(Message, context.HttpContext, dict);
         }
     }
 }

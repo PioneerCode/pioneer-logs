@@ -1,15 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Pioneer.Logs.Tubs.Console;
 
 namespace Pioneer.Logs.Samples.Console
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            PioneerLogsTub.RegisterLogger();
+
+            RunPerformanceLoggingTask();
+            RunUsageLoggingTask();
+
+            throw new Exception("Global exception test");
+        }
+
+        private static void RunPerformanceLoggingTask()
+        {
+            var tracker = PioneerLogsTub.StartLogsPerformanceTracker("RunPerformanceLoggingTask performance test");
+            System.Threading.Thread.Sleep(1000);
+            tracker.Stop();
+        }
+
+        private static void RunUsageLoggingTask()
+        {
+            PioneerLogsTub.LogUsage("RunUsageLoggingTask usage test.");
         }
     }
 }

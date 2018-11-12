@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Pioneer.Logs.Models;
 using Serilog;
 using Serilog.Events;
 using PioneerLog = Pioneer.Logs.Models.PioneerLog;
@@ -8,7 +9,7 @@ namespace Pioneer.Logs
     /// <summary>
     /// Base Logger that sites on top of <see cref="Serilog"/>
     /// </summary>
-    public static class PioneerLogger
+    internal static class PioneerLogger
     {
         public static ILogger PerformanceLogger;
         public static ILogger UsageLogger;
@@ -73,7 +74,19 @@ namespace Pioneer.Logs
         /// </summary>
         public static void ClearLogger()
         {
-            Serilog.Log.CloseAndFlush();
+            Log.CloseAndFlush();
+        }
+
+        /// <summary>
+        /// Set overrides for <see cref="Serilog.ILogger"/> types if provided.
+        /// </summary>
+        /// <param name="configuration"><see cref="PioneerLogsTubConfiguration"/></param>
+        public static void SetLoggers(PioneerLogsTubConfiguration configuration)
+        {
+            DiagnosticLogger = configuration.DiagnosticLogger ?? DiagnosticLogger;
+            PerformanceLogger = configuration.PerformanceLogger ?? PerformanceLogger;
+            UsageLogger = configuration.UsageLogger ?? UsageLogger;
+            ErrorLogger = configuration.ErrorLogger ?? ErrorLogger;
         }
     }
 }

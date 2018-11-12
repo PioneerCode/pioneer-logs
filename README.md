@@ -89,7 +89,7 @@ You can supply a `PioneerLogsTrackUsage` attribute to any of your methods that y
 ```csharp
 [HttpGet]
 [Route("api/exception")]
-[PioneerLogsTrackUsage(ActivityName = "Exception Get")]
+[PioneerLogsTrackUsage(Message = "Exception Get")]
 public ActionResult<IEnumerable<string>> Get()
 {
     throw new Exception("Force Exception");

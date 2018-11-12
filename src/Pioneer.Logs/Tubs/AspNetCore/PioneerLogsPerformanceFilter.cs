@@ -10,7 +10,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         public void OnActionExecuting(ActionExecutingContext context)
         {
             var request = context.HttpContext.Request;
-            var activity = $"{request.Path}-{request.Method}";
+            var message = $"{request.Path}-{request.Method}";
 
             var dict = new Dictionary<string, object>();
             if (context.RouteData.Values?.Keys != null)
@@ -21,7 +21,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                 }
             }
 
-            var details = PioneerLogsTub.GetTubDetail(activity, context.HttpContext, dict);
+            var details = PioneerLogsTub.GetTubDetail(message, context.HttpContext, dict);
 
             _tracker = new PioneerLogsPerformanceTracker(details);
         }

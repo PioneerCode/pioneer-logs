@@ -10,7 +10,7 @@ namespace Pioneer.Logs.Samples.AspNetCore.Controllers
     {
         [HttpGet]
         [Route("api/exception")]
-        [PioneerLogsTrackUsage(ActivityName = "TestController Get")]
+        [PioneerLogsTrackUsage(Message = "TestController Get")]
         public ActionResult<IEnumerable<string>> Get()
         {
             PioneerLogsTub.LogDiagnostic("Test diagnostic log....", 
