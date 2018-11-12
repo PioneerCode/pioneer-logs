@@ -82,9 +82,9 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 ```
 
-#### Add-Hoc Usage Tracking
+### Add-Hoc Usage Tracking
 
-You can supply a filter to any of your methods that you would like to track Usage on.
+You can supply a attribute to any of your methods that you would like to track usage on.
 
 ```csharp
 [HttpGet]
@@ -93,5 +93,21 @@ You can supply a filter to any of your methods that you would like to track Usag
 public ActionResult<IEnumerable<string>> Get()
 {
     throw new Exception("Force Exception");
+}
+```
+
+
+### Global Performance tracking
+
+You can apply a the `PioneerLogsPerformanceFilter` filter global to track performance.
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    ...
+    services.AddMvc(options => 
+            options.Filters.Add(new PioneerLogsPerformanceFilter()))
+        .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+    ...
 }
 ```
