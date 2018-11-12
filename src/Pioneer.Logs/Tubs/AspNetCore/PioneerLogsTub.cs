@@ -32,6 +32,11 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             HttpContext context,
             Dictionary<string, object> diagnosticInfo = null)
         {
+            if (!Configuration.WriteDiagnostics)
+            {
+                return;
+            }
+
             var details = GetTubDetail(message, context, diagnosticInfo);
             PioneerLogger.WriteDiagnostic(details);
         }

@@ -18,5 +18,15 @@
         /// - Service: Name of service associated with application
         /// </summary>
         public string ApplicationLayer { get; set; }
+
+        /// <summary>
+        /// Enable or disable diagnostic logging. 
+        /// </summary>
+        public bool WriteDiagnostics { get; set; }
+
+        public PioneerLogsConfiguration()
+        {
+            WriteDiagnostics = false;
+        }
     }
 }
