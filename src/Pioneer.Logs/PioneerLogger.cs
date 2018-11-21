@@ -18,20 +18,21 @@ namespace Pioneer.Logs
 
         static PioneerLogger()
         {
+            const string outputTemplate = "{Message:lj}{NewLine}";
             PerformanceLogger = new LoggerConfiguration()
-                  .WriteTo.File(path: @"logs\pioneer-logs-performance.log", rollingInterval: RollingInterval.Day)
+                  .WriteTo.Async(a => a.File(path: @"logs\pioneer-logs-performance-.log", rollingInterval: RollingInterval.Day, outputTemplate: outputTemplate))
                   .CreateLogger();
 
             UsageLogger = new LoggerConfiguration()
-                .WriteTo.File(path: @"logs\pioneer-logs-usage.log", rollingInterval: RollingInterval.Day)
+                .WriteTo.Async(a => a.File(path: @"logs\pioneer-logs-usage-.log", rollingInterval: RollingInterval.Day, outputTemplate: outputTemplate))
                 .CreateLogger();
 
             ErrorLogger = new LoggerConfiguration()
-                .WriteTo.File(path: @"logs\pioneer-logs-error.log", rollingInterval: RollingInterval.Day)
+                .WriteTo.Async(a => a.File(path: @"logs\pioneer-logs-error-.log", rollingInterval: RollingInterval.Day, outputTemplate: outputTemplate))
                 .CreateLogger();
 
             DiagnosticLogger = new LoggerConfiguration()
-                .WriteTo.File(path: @"logs\pioneer-logs-diagnostic.log", rollingInterval: RollingInterval.Day)
+                .WriteTo.Async(a => a.File(path: @"logs\pioneer-logs-diagnostic-.log", rollingInterval: RollingInterval.Day, outputTemplate: outputTemplate))
                 .CreateLogger();
 
             Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
