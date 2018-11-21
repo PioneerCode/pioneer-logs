@@ -74,6 +74,8 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             return detail;
         }
 
+
+
         /// <summary>
         /// Gather details about the request made to this HTTP pipeline request.
         /// </summary>

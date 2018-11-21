@@ -19,19 +19,19 @@ namespace Pioneer.Logs
         static PioneerLogger()
         {
             PerformanceLogger = new LoggerConfiguration()
-                  .WriteTo.File(path: @"logs\performance.txt", rollingInterval: RollingInterval.Day)
+                  .WriteTo.File(path: @"logs\pioneer-logs-performance.log", rollingInterval: RollingInterval.Day)
                   .CreateLogger();
 
             UsageLogger = new LoggerConfiguration()
-                .WriteTo.File(path: @"logs\usage.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.File(path: @"logs\pioneer-logs-usage.log", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             ErrorLogger = new LoggerConfiguration()
-                .WriteTo.File(path: @"logs\error.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.File(path: @"logs\pioneer-logs-error.log", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             DiagnosticLogger = new LoggerConfiguration()
-                .WriteTo.File(path: @"logs\diagnostic.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.File(path: @"logs\pioneer-logs-diagnostic.log", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
