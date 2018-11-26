@@ -3,7 +3,7 @@
 namespace Pioneer.Logs.Tubs.AspNetCore
 {
     /// <summary>
-    /// Custom error response used to shield internal errors from client.
+    /// Custom HTTP error response used to shield internal errors from client.
     /// </summary>
     public class PioneerLogsErrorResponse
     {

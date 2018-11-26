@@ -5,6 +5,10 @@ using Pioneer.Logs.Models;
 
 namespace Pioneer.Logs.Tubs.AspNetCore
 {
+    /// <summary>
+    /// Extension for <see cref="IServiceCollection"/> that binds configuration
+    /// from appsettings.json to Pioneer Logs
+    /// </summary>
     public static class PioneerLogsServiceExtensions
     {
         /// <summary>

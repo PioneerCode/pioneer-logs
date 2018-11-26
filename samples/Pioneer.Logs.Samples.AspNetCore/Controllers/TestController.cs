@@ -13,10 +13,10 @@ namespace Pioneer.Logs.Samples.AspNetCore.Controllers
         [PioneerLogsTrackUsage(Message = "TestController Get")]
         public ActionResult<IEnumerable<string>> Get()
         {
-            PioneerLogsTub.LogDiagnostic("Test diagnostic log....", 
+            PioneerLogsTub.LogDiagnostic("Hi, I am about to force an Exception.", 
                 HttpContext,
                 new Dictionary<string, object> { { "Test", "Parameter" } });
-            throw new Exception("Force Exception");
+            throw new Exception("I just manually forced an Exception.  Enjoy!");
         }
     }
 }

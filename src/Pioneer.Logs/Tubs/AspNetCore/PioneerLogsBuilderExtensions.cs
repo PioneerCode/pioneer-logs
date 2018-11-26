@@ -10,8 +10,8 @@ namespace Pioneer.Logs.Tubs.AspNetCore
     public static class PioneerLogsBuilderExtensions
     {
         /// <summary>
-        /// Add Middleware to HTTP pipeline that captures and logs exceptions
-        /// with the <see cref="PioneerLogsTub"/>
+        /// <see cref="IApplicationBuilder"/> used to add Middleware to HTTP pipeline that captures
+        /// and logs exceptions with the <see cref="PioneerLogsTub"/>
         /// </summary>
         /// <param name="app"><inheritdoc cref="IApplicationBuilder"/></param>
         /// <param name="configuration"><inheritdoc cref="PioneerLogsTubConfiguration"/></param>
