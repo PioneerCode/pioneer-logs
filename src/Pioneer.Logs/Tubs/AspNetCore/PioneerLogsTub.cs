@@ -36,7 +36,6 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             {
                 return;
             }
-
             var details = GetTubDetail(message, context, additionalInfo);
             PioneerLogger.WriteDiagnostic(details);
         }
@@ -45,7 +44,6 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         {
             var details = GetTubDetail(null, context);
             details.Exception = ex;
-
             PioneerLogger.WriteError(details);
         }
 
@@ -59,6 +57,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         {
             var detail = new PioneerLog
             {
+                Id = Guid.NewGuid(),
                 ApplicationName = Configuration.ApplicationName,
                 ApplicationLayer = Configuration.ApplicationLayer,
                 Message = message,
@@ -73,7 +72,6 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
             return detail;
         }
-
 
 
         /// <summary>

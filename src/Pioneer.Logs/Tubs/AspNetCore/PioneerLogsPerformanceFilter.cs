@@ -29,8 +29,6 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
             var details = PioneerLogsTub.GetTubDetail(message, context.HttpContext, dict);
 
-            //details.CorrelationId = Activity.Current?.Id;
-
             _tracker = new PioneerLogsPerformanceTracker(details);
         }
 

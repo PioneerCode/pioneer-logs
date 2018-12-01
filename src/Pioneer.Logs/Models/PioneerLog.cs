@@ -16,7 +16,7 @@ namespace Pioneer.Logs.Models
         /// <summary>
         /// Internal UID if needed
         /// </summary>
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Timestamp at moment log was created
