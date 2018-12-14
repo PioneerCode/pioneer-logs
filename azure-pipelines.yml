@@ -10,7 +10,7 @@ variables:
   buildConfiguration: 'Release'
   Major: '0'
   Minor: '1'
-  Patch: '0-alpha-'
+  Patch: ''
   Counter: $[counter('versioncounter')]
   
 steps:
