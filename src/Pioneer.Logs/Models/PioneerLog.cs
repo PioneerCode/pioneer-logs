@@ -94,7 +94,7 @@ namespace Pioneer.Logs.Models
         /// <summary>
         /// Lowest message in Inner <see cref="Exception"/> hierarchy.
         /// </summary>
-        public string InnerMostExceptionMessage => GetMessageFromException(Exception);
+        public string InnermostExceptionMessage => GetMessageFromException(Exception);
 
         /// <summary>
         /// When dealing with a multi-layer system,...
