@@ -127,7 +127,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             }
 
             detail.UserId = userId;
-            detail.UserName = userName;
+            detail.Username = userName;
         }
     }
 }

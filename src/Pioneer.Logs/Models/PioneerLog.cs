@@ -72,7 +72,7 @@ namespace Pioneer.Logs.Models
         /// - Web: User name associated with id
         /// - Service: Instance Name
         /// </summary>
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         /// <summary>
         /// Elapsed Milliseconds of performance tracking
