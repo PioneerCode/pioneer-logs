@@ -15,10 +15,14 @@ namespace Pioneer.Logs
         public static ILogger UsageLogger;
         public static ILogger ErrorLogger;
         public static ILogger DiagnosticLogger;
+        public static ILogger ConsoleLogger;
 
+        /// <summary>
+        /// Configure loggers
+        /// </summary>
         static PioneerLogger()
         {
-            const string outputTemplate = "{Message:lj}{NewLine}";
+            const string outputTemplate = "{Message:l" + "j}{NewLine}";
             PerformanceLogger = new LoggerConfiguration()
                   .WriteTo.Async(a => a.File(path: @"logs\pioneer-logs-performance-.log", rollingInterval: RollingInterval.Day, outputTemplate: outputTemplate))
                   .CreateLogger();
@@ -33,6 +37,10 @@ namespace Pioneer.Logs
 
             DiagnosticLogger = new LoggerConfiguration()
                 .WriteTo.Async(a => a.File(path: @"logs\pioneer-logs-diagnostic-.log", rollingInterval: RollingInterval.Day, outputTemplate: outputTemplate))
+                .CreateLogger();
+
+            ConsoleLogger = new LoggerConfiguration()
+                .WriteTo.Console()
                 .CreateLogger();
 
             Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
