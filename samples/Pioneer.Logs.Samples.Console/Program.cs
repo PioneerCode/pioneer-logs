@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Configuration;
+using Pioneer.Logs.Models;
 using Pioneer.Logs.Tubs.Console;
 
 namespace Pioneer.Logs.Samples.Console

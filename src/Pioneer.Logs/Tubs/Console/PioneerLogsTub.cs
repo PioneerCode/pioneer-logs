@@ -93,23 +93,20 @@ namespace Pioneer.Logs.Tubs.Console
         /// </summary>
         public static void RegisterLogger()
         {
+            // Unregister and register
             AppDomain.CurrentDomain.UnhandledException -= UnhandledExceptionHandler;
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 
-            var settingCollection =
-                (NameValueCollection)ConfigurationManager.GetSection("PioneerLogsConfiguration");
-            Configuration.ApplicationName = settingCollection["ApplicationName"];
-            Configuration.ApplicationLayer = settingCollection["ApplicationLayer"];
-            Configuration.WriteDiagnostics = Convert.ToBoolean(settingCollection["WriteDiagnostics"]);
+            var config = (PioneerLogsConfiguration)ConfigurationManager.GetSection("PioneerLogsConfiguration");
+            Configuration.ApplicationName = config.ApplicationName;
+            Configuration.ApplicationLayer = config.ApplicationLayer;
+            Configuration.WriteDiagnostics = config.WriteDiagnostics;
         }
 
         private static readonly UnhandledExceptionEventHandler UnhandledExceptionHandler = (s, args) =>
         {
             var ex = args.ExceptionObject as Exception;
-            if (ex != null)
-            {
-                LogError((Exception)args.ExceptionObject);
-            }
+            LogError(ex);
         };
     }
 }
