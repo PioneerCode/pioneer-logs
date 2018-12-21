@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Pioneer.Logs.Models;
@@ -13,6 +14,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
     {
         public static PioneerLogsConfiguration Configuration { get; set; }
         private static PioneerLogsPerformanceTracker Tracker { get; set; }
+        private static string TrackerStartingMethodName { get; set; }
 
         static PioneerLogsTub()
         {
@@ -27,7 +29,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
 
             if (Configuration.WriteToConsole)
             {
-                PioneerLogger.ConsoleLogger.Information(message);
+                PioneerLogger.ConsoleLogger.Information("USAGE: " + message);
             }
         }
 
@@ -44,7 +46,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
 
             if (Configuration.WriteToConsole)
             {
-                PioneerLogger.ConsoleLogger.Debug(message);
+                PioneerLogger.ConsoleLogger.Information("DIAGNOSTIC: " + message);
             }
         }
 
@@ -59,7 +61,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             PioneerLogger.WriteError(details);
             if (Configuration.WriteToConsole)
             {
-                PioneerLogger.ConsoleLogger.Error(ex.ToString());
+                PioneerLogger.ConsoleLogger.Error("ERROR: " + ex);
             }
         }
 
@@ -72,7 +74,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             PioneerLogger.WriteError(details);
             if (Configuration.WriteToConsole)
             {
-                PioneerLogger.ConsoleLogger.Error(message);
+                PioneerLogger.ConsoleLogger.Error("ERROR: " + message);
             }
         }
 
@@ -86,7 +88,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             PioneerLogger.WriteError(details);
             if (Configuration.WriteToConsole)
             {
-                PioneerLogger.ConsoleLogger.Error(message);
+                PioneerLogger.ConsoleLogger.Error("ERROR: " + message);
             }
         }
 
@@ -114,10 +116,12 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// <summary>
         /// Create a new <see cref="PioneerLogsPerformanceTracker"/> object and by way, start the performance timer.
         /// </summary>
-        /// <param name="message">Message to log</param>
-        public static void StartPerformanceTracker(string message)
+        /// <param name="message">Add message to persisted log</param>
+        public static void StartPerformanceTracker(string message = null)
         {
             Tracker = new PioneerLogsPerformanceTracker(GetTubDetail(message));
+            var st = new StackTrace();
+            TrackerStartingMethodName = st.GetFrame(1).GetMethod().Name;
         }
 
         /// <summary>
@@ -125,12 +129,19 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// </summary>
         public static void StopPerformanceTracker()
         {
-            Tracker.Stop();
+            var log = Tracker.Stop();
             Tracker = null;
-            if (Configuration.WriteToConsole)
+
+            if (!Configuration.WriteToConsole)
             {
-                PioneerLogger.ConsoleLogger.Error(message);
+                return;
             }
+
+            var st = new StackTrace();
+            PioneerLogger.ConsoleLogger.Information(
+                $"PERF: Started at {TrackerStartingMethodName} and ended in {st.GetFrame(1).GetMethod().Name} - {log.PerformanceElapsedMilliseconds} ms");
+
+            TrackerStartingMethodName = string.Empty;
         }
 
         /// <summary>

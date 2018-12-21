@@ -30,11 +30,12 @@ namespace Pioneer.Logs
             }
         }
 
-        public void Stop()
+        public PioneerLog Stop()
         {
             _sw.Stop();
             _log.PerformanceElapsedMilliseconds = _sw.ElapsedMilliseconds;
             PioneerLogger.WritePerf(_log);
+            return _log;
         }
     }
 }

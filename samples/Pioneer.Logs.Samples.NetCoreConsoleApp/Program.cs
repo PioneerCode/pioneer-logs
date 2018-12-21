@@ -12,6 +12,7 @@ namespace Pioneer.Logs.Samples.NetCoreConsoleApp
         {
             _config = PioneerLogsTub.RegisterLogger();
 
+
             RunPerformanceLoggingTask();
             RunUsageLoggingTask();
             RunDiagnosticLoggingTask();
@@ -25,19 +26,19 @@ namespace Pioneer.Logs.Samples.NetCoreConsoleApp
 
         private static void RunPerformanceLoggingTask()
         {
-            PioneerLogsTub.StartPerformanceTracker("RunPerformanceLoggingTask performance test");
+            PioneerLogsTub.StartPerformanceTracker();
             System.Threading.Thread.Sleep(1000);
             PioneerLogsTub.StopPerformanceTracker();
         }
 
         private static void RunUsageLoggingTask()
         {
-            PioneerLogsTub.LogUsage("RunUsageLoggingTask test.");
+            PioneerLogsTub.LogUsage("RunUsageLoggingTask");
         }
 
         private static void RunDiagnosticLoggingTask()
         {
-            PioneerLogsTub.LogDiagnostic("RunDiagnosticLoggingTask test.");
+            PioneerLogsTub.LogDiagnostic("Some Random Message.");
         }
     }
 }
