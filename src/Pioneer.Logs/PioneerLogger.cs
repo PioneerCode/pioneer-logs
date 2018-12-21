@@ -23,6 +23,7 @@ namespace Pioneer.Logs
         static PioneerLogger()
         {
             const string outputTemplate = "{Message:l" + "j}{NewLine}";
+
             PerformanceLogger = new LoggerConfiguration()
                   .WriteTo.Async(a => a.File(path: @"logs\pioneer-logs-performance-.log", rollingInterval: RollingInterval.Day, outputTemplate: outputTemplate))
                   .CreateLogger();
@@ -40,6 +41,7 @@ namespace Pioneer.Logs
                 .CreateLogger();
 
             ConsoleLogger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
                 .WriteTo.Console()
                 .CreateLogger();
 
@@ -96,6 +98,7 @@ namespace Pioneer.Logs
             PerformanceLogger = configuration.PerformanceLogger ?? PerformanceLogger;
             UsageLogger = configuration.UsageLogger ?? UsageLogger;
             ErrorLogger = configuration.ErrorLogger ?? ErrorLogger;
+            ConsoleLogger = configuration.ConsoleLogger ?? ConsoleLogger;
         }
     }
 }

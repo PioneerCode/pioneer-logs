@@ -13,5 +13,6 @@ namespace Pioneer.Logs.Models
         public ILogger UsageLogger { get; set; }
         public ILogger ErrorLogger { get; set; }
         public ILogger DiagnosticLogger { get; set; }
+        public ILogger ConsoleLogger { get; set; }
     }
 }

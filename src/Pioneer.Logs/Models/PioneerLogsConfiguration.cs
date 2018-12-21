@@ -12,7 +12,6 @@ namespace Pioneer.Logs.Models
         /// <summary>
         /// What application did this derive from?
         /// </summary>
-        [ConfigurationProperty("ApplicationName", IsRequired = true)]
         public string ApplicationName { get; set; }
 
         /// <summary>
@@ -22,14 +21,17 @@ namespace Pioneer.Logs.Models
         /// - API: Name of ASP.NET Core WebApi application
         /// - Service: Name of service associated with application
         /// </summary>
-        [ConfigurationProperty("ApplicationLayer", IsRequired = true)]
         public string ApplicationLayer { get; set; }
 
         /// <summary>
         /// Enable or disable diagnostic logging. 
         /// </summary>
-        [ConfigurationProperty("WriteDiagnostics", IsRequired = true)]
         public bool WriteDiagnostics { get; set; }
+
+        /// <summary>
+        /// Enable console logging
+        /// </summary>
+        public bool WriteToConsole { get; set; }
 
         public PioneerLogsConfiguration()
         {
@@ -48,6 +50,7 @@ namespace Pioneer.Logs.Models
             ApplicationName = section.FirstChild.Attributes["ApplicationName"].Value;
             ApplicationLayer = section.FirstChild.Attributes["ApplicationLayer"].Value;
             WriteDiagnostics = section.FirstChild.Attributes["WriteDiagnostics"].Value.ToLower() == "true";
+            WriteToConsole = section.FirstChild.Attributes["WriteToConsole"].Value.ToLower() == "true";
             return this;
         }
     }
