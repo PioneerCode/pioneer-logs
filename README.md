@@ -38,7 +38,7 @@ Example log...
         "InnerException": null,
         "TargetSite": "Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get()",
         "StackTrace": "   at Pioneer.Logs.Samples.AspNetCore.Controllers.TestController.Get() in C:\\source\\pioneer-logs\\samples\\Pioneer.Logs.Samples.AspNetCore\\Controllers\\TestController.cs:line 19\r\n   at lambda_method(Closure , Object , Object[] )\r\n   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)\r\n   at 
-        .... shortned for space
+        .... shortened for space
         ",
         "HelpLink": null,
         "Source": "Pioneer.Logs.Samples.AspNetCore",
@@ -63,5 +63,10 @@ Example log...
 
 ### Tubs
 
-Platform specific implementation is managed through a concept known as "Tubs", a predefined set of abstractions that you configure and plug into your application.  
+To get started you need to add a "Tub" to your application. A Tub is a predefined set of abstractions that you configure and plug into your application.  
+
+Current tubs....
+
+1) [ASP.NET Core](https://github.com/PioneerCode/pioneer-logs/wiki/ASP.NET-Core)
+2) [.NET Core Console Application](https://github.com/PioneerCode/pioneer-logs/wiki/.NET-Core-Console-Application)
 
