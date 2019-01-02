@@ -12,16 +12,19 @@ namespace Pioneer.Logs.Samples.NetCoreConsoleApp
         {
             _config = PioneerLogsTub.RegisterLogger();
 
+            BusinessLogicLoop( Guid.NewGuid());
 
+            Console.ReadLine();
+            throw new Exception("Global exception test");
+        }
+
+        private static void BusinessLogicLoop(Guid id)
+        {
+            PioneerLogsTub.CorrelationId = id.ToString();
             RunPerformanceLoggingTask();
             RunUsageLoggingTask();
             RunDiagnosticLoggingTask();
-
             PioneerLogsTub.LogError("Oh NO!!!");
-
-            Console.ReadLine();
-
-            throw new Exception("Global exception test");
         }
 
         private static void RunPerformanceLoggingTask()

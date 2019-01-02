@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Pioneer.Logs.Models;
+using static System.String;
 
 namespace Pioneer.Logs.Tubs.AspNetCore
 {
@@ -13,6 +13,11 @@ namespace Pioneer.Logs.Tubs.AspNetCore
     /// </summary>
     public static class PioneerLogsTub
     {
+        /// <summary>
+        /// Manually overrides system level correlation generated IDs
+        /// If used, it is the responsibility of the client to manage state of this value. 
+        /// </summary>
+        public static string CorrelationId { get; set; }
         public static PioneerLogsConfiguration Configuration { get; set; }
 
         static PioneerLogsTub()
@@ -44,6 +49,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         {
             var details = GetTubDetail(null, context);
             details.Exception = ex;
+            CorrelationId = Empty;
             PioneerLogger.WriteError(details);
         }
 
@@ -62,7 +68,8 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                 ApplicationLayer = Configuration.ApplicationLayer,
                 Message = message,
                 Hostname = Environment.MachineName,
-                CorrelationId = Activity.Current?.Id ?? context.TraceIdentifier,
+                CorrelationId = IsNullOrEmpty(CorrelationId) ? Guid.NewGuid().ToString() : CorrelationId,
+                SystemGenerateCorrelationId = IsNullOrEmpty(CorrelationId),
                 AdditionalInfo = additionalInfo ?? new Dictionary<string, object>(),
                 CreationTimestamp = DateTime.UtcNow
             };

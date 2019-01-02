@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Pioneer.Logs.Models;
+using static System.String;
 
 namespace Pioneer.Logs.Tubs.NetCoreConsole
 {
@@ -12,6 +13,11 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
     /// </summary>
     public static class PioneerLogsTub
     {
+        /// <summary>
+        /// Manually overrides system level correlation generated IDs
+        /// If used, it is the responsibility of the client to manage state of this value. 
+        /// </summary>
+        public static string CorrelationId { get; set; }
         public static PioneerLogsConfiguration Configuration { get; set; }
         private static PioneerLogsPerformanceTracker Tracker { get; set; }
         private static string TrackerStartingMethodName { get; set; }
@@ -59,6 +65,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             var details = GetTubDetail(null);
             details.Exception = ex;
             PioneerLogger.WriteError(details);
+            CorrelationId = Empty;
             if (Configuration.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Error("ERROR: " + ex);
@@ -72,6 +79,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         {
             var details = GetTubDetail(message);
             PioneerLogger.WriteError(details);
+            CorrelationId = Empty;
             if (Configuration.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Error("ERROR: " + message);
@@ -86,6 +94,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             var details = GetTubDetail(message);
             details.Exception = ex;
             PioneerLogger.WriteError(details);
+            CorrelationId = Empty;
             if (Configuration.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Error("ERROR: " + message);
@@ -101,11 +110,14 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         {
             var detail = new PioneerLog
             {
+                Id = Guid.NewGuid(),
                 ApplicationName = Configuration.ApplicationName,
                 ApplicationLayer = Configuration.ApplicationLayer,
                 Message = message,
+                Username = Environment.UserName,
                 Hostname = Environment.MachineName,
-                //CorrelationId = Activity.Current?.Id ?? context.TraceIdentifier,
+                CorrelationId = IsNullOrEmpty(CorrelationId) ? Guid.NewGuid().ToString() : CorrelationId,
+                SystemGenerateCorrelationId = IsNullOrEmpty(CorrelationId),
                 AdditionalInfo = additionalInfo ?? new Dictionary<string, object>(),
                 CreationTimestamp = DateTime.UtcNow
             };
@@ -141,7 +153,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             PioneerLogger.ConsoleLogger.Information(
                 $"PERF: Started at {TrackerStartingMethodName} and ended in {st.GetFrame(1).GetMethod().Name} - {log.PerformanceElapsedMilliseconds} ms");
 
-            TrackerStartingMethodName = string.Empty;
+            TrackerStartingMethodName = Empty;
         }
 
         /// <summary>
@@ -162,7 +174,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
                 .GetSection("PioneerLogsConfiguration");
 
             Configuration.ApplicationName = builder.GetValue<string>("ApplicationName");
-            Configuration.ApplicationLayer = builder.GetValue<string>("ApplicationName");
+            Configuration.ApplicationLayer = builder.GetValue<string>("ApplicationLayer");
             Configuration.WriteDiagnostics = builder.GetValue<bool>("WriteDiagnostics");
             Configuration.WriteToConsole = builder.GetValue<bool>("WriteToConsole");
 

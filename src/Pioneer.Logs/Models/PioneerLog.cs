@@ -105,6 +105,11 @@ namespace Pioneer.Logs.Models
         public string CorrelationId { get; set; }
 
         /// <summary>
+        /// Was the correlation id set manually or generated dynamically
+        /// </summary>
+        public bool SystemGenerateCorrelationId { get; set; }
+
+        /// <summary>
         /// Key value for unique entries
         /// </summary>
         public Dictionary<string, object> AdditionalInfo { get; set; }
