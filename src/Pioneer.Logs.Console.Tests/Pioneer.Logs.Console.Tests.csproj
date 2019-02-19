@@ -9,4 +9,10 @@
     <ProjectReference Include="..\..\samples\Pioneer.Logs.Samples.NetCoreConsoleApp\Pioneer.Logs.Samples.NetCoreConsoleApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

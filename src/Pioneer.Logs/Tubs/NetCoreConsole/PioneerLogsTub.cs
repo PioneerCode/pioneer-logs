@@ -153,7 +153,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             PioneerLogger.ConsoleLogger.Information(
                 $"PERF: Started at {TrackerStartingMethodName} and ended in {st.GetFrame(1).GetMethod().Name} - {log.PerformanceElapsedMilliseconds} ms");
 
-            TrackerStartingMethodName = Empty;
+            TrackerStartingMethodName = string.Empty;
         }
 
         /// <summary>

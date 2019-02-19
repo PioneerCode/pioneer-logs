@@ -14,7 +14,7 @@ namespace Pioneer.Logs.Console.Tests
                 System.Console.WriteLine("********* DriveSafe LPR API Load Test Mocking *********");
                 System.Console.WriteLine();
 
-                System.Console.Write("Enter number of iterations:");
+                System.Console.Write("Enter number of iterations: ");
                 RunPerformanceLoad(int.Parse(System.Console.ReadLine()));
 
                 System.Console.WriteLine();
@@ -34,7 +34,8 @@ namespace Pioneer.Logs.Console.Tests
         {
             for (var i = 0; i < iterations; i++)
             {
-                PioneerLogsTub.StartPerformanceTracker(i.ToString());
+                PioneerLogsTub.LogDiagnostic("Some Random Message.");
+                PioneerLogsTub.StartPerformanceTracker($"RX Optimize Image EventId: {i}");
                 PioneerLogsTub.StopPerformanceTracker();
             }
         }
