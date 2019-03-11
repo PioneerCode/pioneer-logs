@@ -12,7 +12,7 @@ namespace Pioneer.Logs.Models
         /// <summary>
         /// What application did this derive from?
         /// </summary>
-        public string ApplicationName { get; set; }
+        public string ApplicationName { get; set; } = "Pioneer Logs";
 
         /// <summary>
         /// What layer of the Application did this derive from?
@@ -21,24 +21,12 @@ namespace Pioneer.Logs.Models
         /// - API: Name of ASP.NET Core WebApi application
         /// - Service: Name of service associated with application
         /// </summary>
-        public string ApplicationLayer { get; set; }
+        public string ApplicationLayer { get; set; } = "Pioneer Logs Layer";
 
-        /// <summary>
-        /// Enable or disable diagnostic logging. 
-        /// </summary>
-        public bool WriteDiagnostics { get; set; }
-
-        /// <summary>
-        /// Enable console logging
-        /// </summary>
-        public bool WriteToConsole { get; set; }
-
-        public PioneerLogsConfiguration()
-        {
-            WriteDiagnostics = false;
-            ApplicationName = "Pioneer Logs";
-            ApplicationLayer = "Pioneer Logs Console";
-        }
+        public Diagnostics Diagnostics { get; set; } = new Diagnostics();
+        public Usage Usage { get; set; } = new Usage();
+        public Error Error { get; set; } = new Error();
+        public Error Performance { get; set; } = new Error();
 
         public object Create(object parent, object configContext, XmlNode section)
         {
@@ -49,9 +37,35 @@ namespace Pioneer.Logs.Models
 
             ApplicationName = section.FirstChild.Attributes["ApplicationName"].Value;
             ApplicationLayer = section.FirstChild.Attributes["ApplicationLayer"].Value;
-            WriteDiagnostics = section.FirstChild.Attributes["WriteDiagnostics"].Value.ToLower() == "true";
-            WriteToConsole = section.FirstChild.Attributes["WriteToConsole"].Value.ToLower() == "true";
+            //Diagnostics = section.FirstChild.Attributes["Diagnostics"].Value;
+            //Usage = section.FirstChild.Attributes["Usage"].Value;
+            //Error = section.FirstChild.Attributes["Error"].Value;
+            //Performance = section.FirstChild.Attributes["Performance"].Value;
             return this;
         }
+    }
+
+    public class Diagnostics
+    {
+        public bool WriteToConsole { get; set; } = true;
+        public bool WriteToFile { get; set; } = false;
+    }
+
+    public class Usage
+    {
+        public bool WriteToConsole { get; set; } = true;
+        public bool WriteToFile { get; set; } = false;
+    }
+
+    public class Performance
+    {
+        public bool WriteToConsole { get; set; } = true;
+        public bool WriteToFile { get; set; } = false;
+    }
+
+    public class Error
+    {
+        public bool WriteToConsole { get; set; } = true;
+        public bool WriteToFile { get; set; } = true;
     }
 }

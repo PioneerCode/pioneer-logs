@@ -6,6 +6,9 @@ using Pioneer.Logs.Models;
 
 namespace Pioneer.Logs
 {
+    /// <summary>
+    /// Shared performance tracker
+    /// </summary>
     public class PioneerLogsPerformanceTracker
     {
         private readonly Stopwatch _sw;

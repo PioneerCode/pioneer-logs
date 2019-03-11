@@ -18,39 +18,45 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// If used, it is the responsibility of the client to manage state of this value. 
         /// </summary>
         public static string CorrelationId { get; set; }
-        public static PioneerLogsConfiguration Configuration { get; set; }
+        public static PioneerLogsConfiguration Configuration { get; set; } = new PioneerLogsConfiguration();
         private static PioneerLogsPerformanceTracker Tracker { get; set; }
         private static string TrackerStartingMethodName { get; set; }
 
-        static PioneerLogsTub()
-        {
-            Configuration = new PioneerLogsConfiguration();
-        }
-
+        /// <summary>
+        /// Log usage
+        /// </summary>
+        /// <param name="message">Accompanying message.</param>
+        /// <param name="additionalInfo">Dictionary of additional values.</param>
         public static void LogUsage(string message,
             Dictionary<string, object> additionalInfo = null)
         {
-            var details = GetTubDetail(message, additionalInfo);
-            PioneerLogger.WriteUsage(details);
+            if (Configuration.Usage.WriteToFile)
+            {
+                var details = GetTubDetail(message, additionalInfo);
+                PioneerLogger.WriteUsage(details);
+            }
 
-            if (Configuration.WriteToConsole)
+            if (Configuration.Usage.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Information("USAGE: " + message);
             }
         }
 
+        /// <summary>
+        /// Log diagnostics
+        /// </summary>
+        /// <param name="message">Accompanying message.</param>
+        /// <param name="additionalInfo">Dictionary of additional values.</param>
         public static void LogDiagnostic(string message,
             Dictionary<string, object> additionalInfo = null)
         {
-            if (!Configuration.WriteDiagnostics)
+            if (Configuration.Diagnostics.WriteToFile)
             {
-                return;
+                var details = GetTubDetail(message, additionalInfo);
+                PioneerLogger.WriteDiagnostic(details);
             }
 
-            var details = GetTubDetail(message, additionalInfo);
-            PioneerLogger.WriteDiagnostic(details);
-
-            if (Configuration.WriteToConsole)
+            if (Configuration.Diagnostics.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Information("DIAGNOSTIC: " + message);
             }
@@ -66,7 +72,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             details.Exception = ex;
             PioneerLogger.WriteError(details);
             CorrelationId = Empty;
-            if (Configuration.WriteToConsole)
+            if (Configuration.Error.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Error("ERROR: " + ex);
             }
@@ -75,12 +81,13 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// <summary>
         /// Log Error message with message string
         /// </summary>
+        /// <param name="message">Accompanying message.</param>
         public static void LogError(string message)
         {
             var details = GetTubDetail(message);
             PioneerLogger.WriteError(details);
             CorrelationId = Empty;
-            if (Configuration.WriteToConsole)
+            if (Configuration.Error.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Error("ERROR: " + message);
             }
@@ -89,13 +96,15 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// <summary>
         /// Log Error message with <see cref="Exception"/> and write to console with message
         /// </summary>
+        /// <param name="ex">Exception thrown</param>
+        /// <param name="message">Accompanying message.</param>
         public static void LogError(Exception ex, string message)
         {
             var details = GetTubDetail(message);
             details.Exception = ex;
             PioneerLogger.WriteError(details);
             CorrelationId = Empty;
-            if (Configuration.WriteToConsole)
+            if (Configuration.Error.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Error("ERROR: " + message);
             }
@@ -105,6 +114,8 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// Get as <see cref="PioneerLog"/> object pre-populated with details parsed
         /// from the .NET Core environment.
         /// </summary>
+        /// <param name="message">Accompanying message.</param>
+        /// <param name="additionalInfo">Dictionary of additional values.</param>
         private static PioneerLog GetTubDetail(string message,
             Dictionary<string, object> additionalInfo = null)
         {
@@ -128,7 +139,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// <summary>
         /// Create a new <see cref="PioneerLogsPerformanceTracker"/> object and by way, start the performance timer.
         /// </summary>
-        /// <param name="message">Add message to persisted log</param>
+        /// <param name="message">Accompanying message.</param>
         public static void StartPerformanceTracker(string message = null)
         {
             Tracker = new PioneerLogsPerformanceTracker(GetTubDetail(message));
@@ -144,7 +155,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             var log = Tracker.Stop();
             Tracker = null;
 
-            if (!Configuration.WriteToConsole)
+            if (!Configuration.Performance.WriteToConsole)
             {
                 return;
             }
@@ -175,8 +186,8 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
 
             Configuration.ApplicationName = builder.GetValue<string>("ApplicationName");
             Configuration.ApplicationLayer = builder.GetValue<string>("ApplicationLayer");
-            Configuration.WriteDiagnostics = builder.GetValue<bool>("WriteDiagnostics");
-            Configuration.WriteToConsole = builder.GetValue<bool>("WriteToConsole");
+            //Configuration.WriteDiagnostics = builder.GetValue<bool>("WriteDiagnostics");
+            //Configuration.WriteToConsole = builder.GetValue<bool>("WriteToConsole");
 
             return Configuration;
         }

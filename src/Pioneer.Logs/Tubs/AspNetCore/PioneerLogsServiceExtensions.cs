@@ -25,7 +25,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
             PioneerLogsTub.Configuration.ApplicationName = configuration["ApplicationName"];
             PioneerLogsTub.Configuration.ApplicationLayer = configuration["ApplicationLayer"];
-            PioneerLogsTub.Configuration.WriteDiagnostics = Convert.ToBoolean(configuration["WriteDiagnostics"]);
+            //PioneerLogsTub.Configuration.WriteDiagnostics = Convert.ToBoolean(configuration["WriteDiagnostics"]);
 
             return services;
         }
