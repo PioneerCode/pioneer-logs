@@ -23,9 +23,13 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
             services.Configure<PioneerLogsConfiguration>(configuration.Bind);
 
-            PioneerLogsTub.Configuration.ApplicationName = configuration["ApplicationName"];
-            PioneerLogsTub.Configuration.ApplicationLayer = configuration["ApplicationLayer"];
-            //PioneerLogsTub.Configuration.WriteDiagnostics = Convert.ToBoolean(configuration["WriteDiagnostics"]);
+            PioneerLogsTub.Configuration.ApplicationName = configuration.GetValue<string>("ApplicationName");
+            PioneerLogsTub.Configuration.ApplicationLayer = configuration.GetValue<string>("ApplicationLayer");
+
+            configuration.GetSection("Usage").Bind(PioneerLogsTub.Configuration.Usage);
+            configuration.GetSection("Errors").Bind(PioneerLogsTub.Configuration.Errors);
+            configuration.GetSection("Diagnostics").Bind(PioneerLogsTub.Configuration.Diagnostics);
+            configuration.GetSection("Performance").Bind(PioneerLogsTub.Configuration.Performance);
 
             return services;
         }

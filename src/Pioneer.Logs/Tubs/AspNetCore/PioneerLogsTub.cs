@@ -27,9 +27,9 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
         public static void LogUsage(string message,
             HttpContext context,
-            Dictionary<string, object> additionalInfo = null)
+            Dictionary<string, object> additionalInfo = null, bool forceWriteToFile = false)
         {
-            if (Configuration.Usage.WriteToFile)
+            if (Configuration.Usage.WriteToFile || forceWriteToFile)
             {
                 var details = GetTubDetail(message, context, additionalInfo);
                 PioneerLogger.WriteUsage(details);
@@ -43,9 +43,9 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
         public static void LogDiagnostic(string message,
             HttpContext context,
-            Dictionary<string, object> additionalInfo = null)
+            Dictionary<string, object> additionalInfo = null, bool forceWriteToFile = false)
         {
-            if (Configuration.Diagnostics.WriteToFile)
+            if (Configuration.Diagnostics.WriteToFile || forceWriteToFile)
             {
                 var details = GetTubDetail(message, context, additionalInfo);
                 PioneerLogger.WriteDiagnostic(details);
@@ -57,9 +57,9 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             }
         }
 
-        public static void LogError(Exception ex, HttpContext context)
+        public static void LogError(Exception ex, HttpContext context, bool forceWriteToFile = false)
         {
-            if (Configuration.Errors.WriteToFile)
+            if (Configuration.Errors.WriteToFile || forceWriteToFile)
             {
                 var details = GetTubDetail(null, context);
                 details.Exception = ex;
@@ -100,7 +100,6 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
             return detail;
         }
-
 
         /// <summary>
         /// Gather details about the request made to this HTTP pipeline request.

@@ -12,7 +12,7 @@ namespace Pioneer.Logs.Samples.NetCoreConsoleApp
         {
             _config = PioneerLogsTub.RegisterLogger();
 
-            BusinessLogicLoop( Guid.NewGuid());
+            BusinessLogicLoop(Guid.NewGuid());
 
             Console.ReadLine();
             throw new Exception("Global exception test");

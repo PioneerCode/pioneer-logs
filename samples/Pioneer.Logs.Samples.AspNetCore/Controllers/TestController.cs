@@ -18,5 +18,16 @@ namespace Pioneer.Logs.Samples.AspNetCore.Controllers
                 new Dictionary<string, object> { { "Test", "Parameter" } });
             throw new Exception("I just manually forced an Exception.  Enjoy!");
         }
+
+        [HttpGet]
+        [Route("api/Test")]
+        [PioneerLogsTrackUsage(Message = "TestController Get")]
+        public ActionResult<IEnumerable<string>> GetTest()
+        {
+            PioneerLogsTub.CorrelationId = Guid.NewGuid().ToString();
+            PioneerLogsTub.LogUsage("RunUsageLoggingTask", HttpContext);
+            PioneerLogsTub.LogDiagnostic("Some Random Message.", HttpContext);
+            return Ok();
+        }
     }
 }
