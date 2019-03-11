@@ -209,24 +209,24 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             Configuration.ApplicationName = builder.GetValue<string>("ApplicationName");
             Configuration.ApplicationLayer = builder.GetValue<string>("ApplicationLayer");
 
-            if (builder.GetValue<Diagnostics>("Diagnostics") != null)
+            if (builder.GetSection("Diagnostics") != null)
             {
-                Configuration.Diagnostics = builder.GetValue<Diagnostics>("Diagnostics");
+                builder.GetSection("Diagnostics").Bind(Configuration.Diagnostics);
             }
 
-            if (builder.GetValue<Errors>("Errors") != null)
+            if (builder.GetSection("Errors") != null)
             {
-                Configuration.Errors = builder.GetValue<Errors>("Errors");
+                builder.GetSection("Errors").Bind(Configuration.Errors);
             }
 
-            if (builder.GetValue<Usage>("Usage") != null)
+            if (builder.GetSection("Usage") != null)
             {
-                Configuration.Usage = builder.GetValue<Usage>("Usage");
+                builder.GetSection("Usage").Bind(Configuration.Usage);
             }
 
-            if (builder.GetValue<Diagnostics>("Diagnostics") != null)
+            if (builder.GetSection("Performance") != null)
             {
-                Configuration.Performance = builder.GetValue<Performance>("Performance");
+                builder.GetSection("Performance").Bind(Configuration.Performance);
             }
 
             return Configuration;

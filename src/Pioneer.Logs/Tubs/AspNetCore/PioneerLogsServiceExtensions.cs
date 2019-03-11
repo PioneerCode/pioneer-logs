@@ -26,10 +26,25 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             PioneerLogsTub.Configuration.ApplicationName = configuration.GetValue<string>("ApplicationName");
             PioneerLogsTub.Configuration.ApplicationLayer = configuration.GetValue<string>("ApplicationLayer");
 
-            configuration.GetSection("Usage").Bind(PioneerLogsTub.Configuration.Usage);
-            configuration.GetSection("Errors").Bind(PioneerLogsTub.Configuration.Errors);
-            configuration.GetSection("Diagnostics").Bind(PioneerLogsTub.Configuration.Diagnostics);
-            configuration.GetSection("Performance").Bind(PioneerLogsTub.Configuration.Performance);
+            if (configuration.GetSection("Diagnostics") != null)
+            {
+                configuration.GetSection("Diagnostics").Bind(PioneerLogsTub.Configuration.Diagnostics);
+            }
+
+            if (configuration.GetSection("Errors") != null)
+            {
+                configuration.GetSection("Errors").Bind(PioneerLogsTub.Configuration.Errors);
+            }
+
+            if (configuration.GetSection("Usage") != null)
+            {
+                configuration.GetSection("Usage").Bind(PioneerLogsTub.Configuration.Usage);
+            }
+
+            if (configuration.GetSection("Performance") != null)
+            {
+                configuration.GetSection("Performance").Bind(PioneerLogsTub.Configuration.Performance);
+            }
 
             return services;
         }
