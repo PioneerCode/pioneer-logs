@@ -25,8 +25,8 @@ namespace Pioneer.Logs.Models
 
         public Diagnostics Diagnostics { get; set; } = new Diagnostics();
         public Usage Usage { get; set; } = new Usage();
-        public Error Error { get; set; } = new Error();
-        public Error Performance { get; set; } = new Error();
+        public Errors Errors { get; set; } = new Errors();
+        public Performance Performance { get; set; } = new Performance();
 
         public object Create(object parent, object configContext, XmlNode section)
         {
@@ -39,7 +39,7 @@ namespace Pioneer.Logs.Models
             ApplicationLayer = section.FirstChild.Attributes["ApplicationLayer"].Value;
             //Diagnostics = section.FirstChild.Attributes["Diagnostics"].Value;
             //Usage = section.FirstChild.Attributes["Usage"].Value;
-            //Error = section.FirstChild.Attributes["Error"].Value;
+            //Errors = section.FirstChild.Attributes["Errors"].Value;
             //Performance = section.FirstChild.Attributes["Performance"].Value;
             return this;
         }
@@ -63,7 +63,7 @@ namespace Pioneer.Logs.Models
         public bool WriteToFile { get; set; } = false;
     }
 
-    public class Error
+    public class Errors
     {
         public bool WriteToConsole { get; set; } = true;
         public bool WriteToFile { get; set; } = true;

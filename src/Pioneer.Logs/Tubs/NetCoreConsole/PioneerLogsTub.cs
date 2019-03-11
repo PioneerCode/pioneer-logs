@@ -63,51 +63,67 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         }
 
         /// <summary>
-        /// Log Error message with exception
+        /// Log Errors message with exception
+        /// Empties CorrelationId
         /// </summary>
         /// <param name="ex">Exception to log</param>
         public static void LogError(Exception ex)
         {
-            var details = GetTubDetail(null);
-            details.Exception = ex;
-            PioneerLogger.WriteError(details);
-            CorrelationId = Empty;
-            if (Configuration.Error.WriteToConsole)
+            if (Configuration.Errors.WriteToFile)
+            {
+                var details = GetTubDetail(null);
+                details.Exception = ex;
+                PioneerLogger.WriteError(details);
+            }
+   
+            if (Configuration.Errors.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Error("ERROR: " + ex);
             }
+
+            CorrelationId = Empty;
         }
 
         /// <summary>
-        /// Log Error message with message string
+        /// Log Errors message with message string
         /// </summary>
         /// <param name="message">Accompanying message.</param>
         public static void LogError(string message)
         {
-            var details = GetTubDetail(message);
-            PioneerLogger.WriteError(details);
-            CorrelationId = Empty;
-            if (Configuration.Error.WriteToConsole)
+            if (Configuration.Errors.WriteToFile)
+            {
+                var details = GetTubDetail(message);
+                PioneerLogger.WriteError(details);
+            }
+
+            if (Configuration.Errors.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Error("ERROR: " + message);
             }
+
+            CorrelationId = Empty;
         }
 
         /// <summary>
-        /// Log Error message with <see cref="Exception"/> and write to console with message
+        /// Log Errors message with <see cref="Exception"/> and write to console with message
         /// </summary>
         /// <param name="ex">Exception thrown</param>
         /// <param name="message">Accompanying message.</param>
         public static void LogError(Exception ex, string message)
         {
-            var details = GetTubDetail(message);
-            details.Exception = ex;
-            PioneerLogger.WriteError(details);
-            CorrelationId = Empty;
-            if (Configuration.Error.WriteToConsole)
+            if (Configuration.Errors.WriteToFile)
+            {
+                var details = GetTubDetail(message);
+                details.Exception = ex;
+                PioneerLogger.WriteError(details);
+            }
+
+            if (Configuration.Errors.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Error("ERROR: " + message);
             }
+
+            CorrelationId = Empty;
         }
 
         /// <summary>
@@ -155,16 +171,14 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             var log = Tracker.Stop();
             Tracker = null;
 
-            if (!Configuration.Performance.WriteToConsole)
+            if (Configuration.Performance.WriteToConsole)
             {
-                return;
+                var st = new StackTrace();
+                PioneerLogger.ConsoleLogger.Information(
+                    $"PERF: Started at {TrackerStartingMethodName} and ended in {st.GetFrame(1).GetMethod().Name} - {log.PerformanceElapsedMilliseconds} ms");
             }
 
-            var st = new StackTrace();
-            PioneerLogger.ConsoleLogger.Information(
-                $"PERF: Started at {TrackerStartingMethodName} and ended in {st.GetFrame(1).GetMethod().Name} - {log.PerformanceElapsedMilliseconds} ms");
-
-            TrackerStartingMethodName = string.Empty;
+            TrackerStartingMethodName = Empty;
         }
 
         /// <summary>
@@ -186,8 +200,11 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
 
             Configuration.ApplicationName = builder.GetValue<string>("ApplicationName");
             Configuration.ApplicationLayer = builder.GetValue<string>("ApplicationLayer");
-            //Configuration.WriteDiagnostics = builder.GetValue<bool>("WriteDiagnostics");
-            //Configuration.WriteToConsole = builder.GetValue<bool>("WriteToConsole");
+
+            Configuration.Diagnostics = builder.GetValue<Diagnostics>("Diagnostics");
+            Configuration.Errors = builder.GetValue<Errors>("Errors");
+            Configuration.Usage = builder.GetValue<Usage>("Usage");
+            Configuration.Performance = builder.GetValue<Performance>("Performance");
 
             return Configuration;
         }
