@@ -198,9 +198,9 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
                 .Build()
                 .GetSection("PioneerLogsConfiguration");
 
+            // Bind Configuration
             Configuration.ApplicationName = builder.GetValue<string>("ApplicationName");
             Configuration.ApplicationLayer = builder.GetValue<string>("ApplicationLayer");
-
             Configuration.Diagnostics = builder.GetValue<Diagnostics>("Diagnostics");
             Configuration.Errors = builder.GetValue<Errors>("Errors");
             Configuration.Usage = builder.GetValue<Usage>("Usage");

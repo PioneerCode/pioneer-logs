@@ -29,28 +29,49 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             HttpContext context,
             Dictionary<string, object> additionalInfo = null)
         {
-            var details = GetTubDetail(message, context, additionalInfo);
-            PioneerLogger.WriteUsage(details);
+            if (Configuration.Usage.WriteToFile)
+            {
+                var details = GetTubDetail(message, context, additionalInfo);
+                PioneerLogger.WriteUsage(details);
+            }
+
+            if (Configuration.Usage.WriteToConsole)
+            {
+                PioneerLogger.ConsoleLogger.Information("USAGE: " + message);
+            }
         }
 
         public static void LogDiagnostic(string message,
             HttpContext context,
             Dictionary<string, object> additionalInfo = null)
         {
-            //if (!Configuration.Diagnostics.)
-            //{
-            //    return;
-            //}
-            var details = GetTubDetail(message, context, additionalInfo);
-            PioneerLogger.WriteDiagnostic(details);
+            if (Configuration.Diagnostics.WriteToFile)
+            {
+                var details = GetTubDetail(message, context, additionalInfo);
+                PioneerLogger.WriteDiagnostic(details);
+            }
+
+            if (Configuration.Diagnostics.WriteToConsole)
+            {
+                PioneerLogger.ConsoleLogger.Information("DIAGNOSTIC: " + message);
+            }
         }
 
         public static void LogError(Exception ex, HttpContext context)
         {
-            var details = GetTubDetail(null, context);
-            details.Exception = ex;
+            if (Configuration.Errors.WriteToFile)
+            {
+                var details = GetTubDetail(null, context);
+                details.Exception = ex;
+                PioneerLogger.WriteError(details);
+            }
+
+            if (Configuration.Errors.WriteToConsole)
+            {
+                PioneerLogger.ConsoleLogger.Error("ERROR: " + ex);
+            }
+
             CorrelationId = Empty;
-            PioneerLogger.WriteError(details);
         }
 
         /// <summary>
