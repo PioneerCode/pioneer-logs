@@ -1,7 +1,7 @@
 # Pioneer Logs
 
 [![Build Status](https://dev.azure.com/pioneer-code/Pioneer%20Logs/_apis/build/status/PioneerCode.pioneer-logs)](https://dev.azure.com/pioneer-code/Pioneer%20Logs/_build/latest?definitionId=3)
-[![](https://img.shields.io/nuget/v/Pioneer.Logs.svg)](https://www.nuget.org/packages/Pioneer.Logs/g)
+[![](https://img.shields.io/nuget/v/Pioneer.Logs.svg)](https://www.nuget.org/packages/Pioneer.Logs/)
 [![](https://img.shields.io/nuget/dt/Pioneer.Logs.svg)](https://www.nuget.org/packages/Pioneer.Logs/)
 
 
