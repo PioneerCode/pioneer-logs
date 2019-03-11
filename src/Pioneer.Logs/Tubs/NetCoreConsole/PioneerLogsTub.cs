@@ -27,10 +27,11 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// </summary>
         /// <param name="message">Accompanying message.</param>
         /// <param name="additionalInfo">Dictionary of additional values.</param>
+        /// <param name="forceWriteToFile">Override configuration to force a write to file</param>
         public static void LogUsage(string message,
-            Dictionary<string, object> additionalInfo = null)
+            Dictionary<string, object> additionalInfo = null, bool forceWriteToFile = false)
         {
-            if (Configuration.Usage.WriteToFile)
+            if (Configuration.Usage.WriteToFile || forceWriteToFile)
             {
                 var details = GetTubDetail(message, additionalInfo);
                 PioneerLogger.WriteUsage(details);
@@ -47,10 +48,11 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// </summary>
         /// <param name="message">Accompanying message.</param>
         /// <param name="additionalInfo">Dictionary of additional values.</param>
+        /// <param name="forceWriteToFile">Override configuration to force a write to file</param>
         public static void LogDiagnostic(string message,
-            Dictionary<string, object> additionalInfo = null)
+            Dictionary<string, object> additionalInfo = null, bool forceWriteToFile = false)
         {
-            if (Configuration.Diagnostics.WriteToFile)
+            if (Configuration.Diagnostics.WriteToFile || forceWriteToFile)
             {
                 var details = GetTubDetail(message, additionalInfo);
                 PioneerLogger.WriteDiagnostic(details);
@@ -67,9 +69,10 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// Empties CorrelationId
         /// </summary>
         /// <param name="ex">Exception to log</param>
-        public static void LogError(Exception ex)
+        /// <param name="forceWriteToFile">Override configuration to force a write to file</param>
+        public static void LogError(Exception ex, bool forceWriteToFile = false)
         {
-            if (Configuration.Errors.WriteToFile)
+            if (Configuration.Errors.WriteToFile || forceWriteToFile)
             {
                 var details = GetTubDetail(null);
                 details.Exception = ex;
@@ -88,9 +91,10 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// Log Errors message with message string
         /// </summary>
         /// <param name="message">Accompanying message.</param>
-        public static void LogError(string message)
+        /// <param name="forceWriteToFile">Override configuration to force a write to file</param>
+        public static void LogError(string message, bool forceWriteToFile = false)
         {
-            if (Configuration.Errors.WriteToFile)
+            if (Configuration.Errors.WriteToFile || forceWriteToFile)
             {
                 var details = GetTubDetail(message);
                 PioneerLogger.WriteError(details);
@@ -109,9 +113,10 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// </summary>
         /// <param name="ex">Exception thrown</param>
         /// <param name="message">Accompanying message.</param>
-        public static void LogError(Exception ex, string message)
+        /// <param name="forceWriteToFile">Override configuration to force a write to file</param>
+        public static void LogError(Exception ex, string message, bool forceWriteToFile = false)
         {
-            if (Configuration.Errors.WriteToFile)
+            if (Configuration.Errors.WriteToFile || forceWriteToFile)
             {
                 var details = GetTubDetail(message);
                 details.Exception = ex;
@@ -166,9 +171,11 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// <summary>
         /// Stop the performance timer
         /// </summary>
-        public static void StopPerformanceTracker()
+        /// <param name="forceWriteToFile">Override configuration to force a write to file</param>
+        public static void StopPerformanceTracker(bool forceWriteToFile = false)
         {
-            var log = Tracker.Stop();
+            var write = Configuration.Performance.WriteToFile || forceWriteToFile;
+            var log = Tracker.Stop(write);
             Tracker = null;
 
             if (Configuration.Performance.WriteToConsole)
@@ -201,10 +208,26 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             // Bind Configuration
             Configuration.ApplicationName = builder.GetValue<string>("ApplicationName");
             Configuration.ApplicationLayer = builder.GetValue<string>("ApplicationLayer");
-            Configuration.Diagnostics = builder.GetValue<Diagnostics>("Diagnostics");
-            Configuration.Errors = builder.GetValue<Errors>("Errors");
-            Configuration.Usage = builder.GetValue<Usage>("Usage");
-            Configuration.Performance = builder.GetValue<Performance>("Performance");
+
+            if (builder.GetValue<Diagnostics>("Diagnostics") != null)
+            {
+                Configuration.Diagnostics = builder.GetValue<Diagnostics>("Diagnostics");
+            }
+
+            if (builder.GetValue<Errors>("Errors") != null)
+            {
+                Configuration.Errors = builder.GetValue<Errors>("Errors");
+            }
+
+            if (builder.GetValue<Usage>("Usage") != null)
+            {
+                Configuration.Usage = builder.GetValue<Usage>("Usage");
+            }
+
+            if (builder.GetValue<Diagnostics>("Diagnostics") != null)
+            {
+                Configuration.Performance = builder.GetValue<Performance>("Performance");
+            }
 
             return Configuration;
         }

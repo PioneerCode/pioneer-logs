@@ -33,11 +33,14 @@ namespace Pioneer.Logs
             }
         }
 
-        public PioneerLog Stop()
+        public PioneerLog Stop(bool logToFile = false)
         {
             _sw.Stop();
             _log.PerformanceElapsedMilliseconds = _sw.ElapsedMilliseconds;
-            PioneerLogger.WritePerf(_log);
+            if (logToFile)
+            {
+                PioneerLogger.WritePerf(_log);
+            }
             return _log;
         }
     }
