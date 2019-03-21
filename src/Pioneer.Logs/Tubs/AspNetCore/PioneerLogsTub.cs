@@ -97,6 +97,30 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         }
 
         /// <summary>
+        /// Log Error
+        /// </summary>
+        /// <param name="message">User defined message</param>
+        /// <param name="context">Optional <see cref="HttpContext"/> used to gather context based info.</param>
+        /// <param name="forceWriteToFile">Override file write from configuration.</param>
+        public static void LogError(string message,
+            HttpContext context = null,
+            bool forceWriteToFile = false)
+        {
+            if (Configuration.Errors.WriteToFile || forceWriteToFile)
+            {
+                var details = GetTubDetail(message, context);
+                PioneerLogger.WriteError(details);
+            }
+
+            if (Configuration.Errors.WriteToConsole)
+            {
+                PioneerLogger.ConsoleLogger.Error("ERROR: " + message);
+            }
+
+            CorrelationId = Empty;
+        }
+
+        /// <summary>
         /// Get as <see cref="PioneerLog"/> object pre-populated with details parsed
         /// from the ASP.NET Core environment.
         /// </summary>
