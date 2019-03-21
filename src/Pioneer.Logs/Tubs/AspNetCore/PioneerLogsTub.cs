@@ -76,14 +76,16 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         /// </summary>
         /// <param name="ex">Exception thrown</param>
         /// <param name="context">Optional <see cref="HttpContext"/> used to gather context based info.</param>
+        /// <param name="additionalInfo">Dictionary of user define key value info.</param>
         /// <param name="forceWriteToFile">Override file write from configuration.</param>
         public static void LogError(Exception ex,
             HttpContext context = null,
+            Dictionary<string, object> additionalInfo = null,
             bool forceWriteToFile = false)
         {
             if (Configuration.Errors.WriteToFile || forceWriteToFile)
             {
-                var details = GetTubDetail(null, context);
+                var details = GetTubDetail(null, context, additionalInfo);
                 details.Exception = ex;
                 PioneerLogger.WriteError(details);
             }
@@ -101,14 +103,16 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         /// </summary>
         /// <param name="message">User defined message</param>
         /// <param name="context">Optional <see cref="HttpContext"/> used to gather context based info.</param>
+        /// <param name="additionalInfo">Dictionary of user define key value info.</param>
         /// <param name="forceWriteToFile">Override file write from configuration.</param>
         public static void LogError(string message,
             HttpContext context = null,
+            Dictionary<string, object> additionalInfo = null,
             bool forceWriteToFile = false)
         {
             if (Configuration.Errors.WriteToFile || forceWriteToFile)
             {
-                var details = GetTubDetail(message, context);
+                var details = GetTubDetail(message, context, additionalInfo);
                 PioneerLogger.WriteError(details);
             }
 
