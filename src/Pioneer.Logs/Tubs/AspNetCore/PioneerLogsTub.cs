@@ -25,8 +25,15 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             Configuration = new PioneerLogsConfiguration();
         }
 
+        /// <summary>
+        /// Log Usage
+        /// </summary>
+        /// <param name="message">User defined message</param>
+        /// <param name="context">Optional <see cref="HttpContext"/> used to gather context based info.</param>
+        /// <param name="additionalInfo">Dictionary of user define key value info.</param>
+        /// <param name="forceWriteToFile">Override file write from configuration.</param>
         public static void LogUsage(string message,
-            HttpContext context,
+            HttpContext context = null,
             Dictionary<string, object> additionalInfo = null, bool forceWriteToFile = false)
         {
             if (Configuration.Usage.WriteToFile || forceWriteToFile)
@@ -41,8 +48,15 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             }
         }
 
+        /// <summary>
+        /// Log Diagnostics
+        /// </summary>
+        /// <param name="message">User defined message</param>
+        /// <param name="context">Optional <see cref="HttpContext"/> used to gather context based info.</param>
+        /// <param name="additionalInfo">Dictionary of user define key value info.</param>
+        /// <param name="forceWriteToFile">Override file write from configuration.</param>
         public static void LogDiagnostic(string message,
-            HttpContext context,
+            HttpContext context = null,
             Dictionary<string, object> additionalInfo = null, bool forceWriteToFile = false)
         {
             if (Configuration.Diagnostics.WriteToFile || forceWriteToFile)
@@ -57,7 +71,15 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             }
         }
 
-        public static void LogError(Exception ex, HttpContext context, bool forceWriteToFile = false)
+        /// <summary>
+        /// Log Error
+        /// </summary>
+        /// <param name="ex">Exception thrown</param>
+        /// <param name="context">Optional <see cref="HttpContext"/> used to gather context based info.</param>
+        /// <param name="forceWriteToFile">Override file write from configuration.</param>
+        public static void LogError(Exception ex,
+            HttpContext context = null,
+            bool forceWriteToFile = false)
         {
             if (Configuration.Errors.WriteToFile || forceWriteToFile)
             {
@@ -79,7 +101,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
         /// from the ASP.NET Core environment.
         /// </summary>
         public static PioneerLog GetTubDetail(string message,
-            HttpContext context,
+            HttpContext context = null,
             Dictionary<string, object> additionalInfo = null)
         {
             var detail = new PioneerLog
@@ -94,6 +116,8 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                 AdditionalInfo = additionalInfo ?? new Dictionary<string, object>(),
                 CreationTimestamp = DateTime.UtcNow
             };
+
+            if (context == null) return detail;
 
             GetUserData(detail, context);
             GetRequestData(detail, context);
