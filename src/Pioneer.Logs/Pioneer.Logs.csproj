@@ -7,7 +7,7 @@
     <PackageProjectUrl>https://github.com/PioneerCode/pioneer-logs</PackageProjectUrl>
     <PackageIconUrl>http://pioneercode.com/images/logo-large.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/PioneerCode/pioneer-logs</RepositoryUrl>
-    <Description>An opinionated abstraction that sits on top of Serilog and provides a construct for centralized logging.</Description>
+    <Description>An opinionated abstraction that sits on top of Serilog, providing a construct for centralized logging by way of correlation.</Description>
     <RepositoryType>Git</RepositoryType>
     <AssemblyVersion>0.1.0.1</AssemblyVersion>
     <FileVersion>0.1.0.0</FileVersion>
