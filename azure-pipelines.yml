@@ -21,7 +21,7 @@ steps:
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)'
     Contents: |
-      /**/*.nupkg
+      /**/*.*upkg
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     FlattenFolders: true
   displayName: 'Copy Artifacts'
