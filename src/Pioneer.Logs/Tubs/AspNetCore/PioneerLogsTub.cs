@@ -93,7 +93,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             if (Configuration.Errors.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Error("ERROR: " + ex);
-            } 
+            }
 
             CorrelationId = Empty;
         }
