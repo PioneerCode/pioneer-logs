@@ -20,7 +20,7 @@ namespace Pioneer.Logs.Samples.AspNetCore.Controllers
         }
 
         [HttpGet]
-        [Route("api/Test")]
+        [Route("api/test")]
         [PioneerLogsTrackUsage(Message = "TestController Get")]
         public ActionResult<IEnumerable<string>> GetTest()
         {
