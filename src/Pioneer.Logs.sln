@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E97BBBF4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pioneer.Logs.Console.Tests", "Pioneer.Logs.Console.Tests\Pioneer.Logs.Console.Tests.csproj", "{CF627893-E4B5-4688-83F4-1DBB2C92210C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIoneer.Logs.Samples.AspNetCore.31", "..\samples\PIoneer.Logs.Samples.AspNetCore.31\PIoneer.Logs.Samples.AspNetCore.31.csproj", "{FDA3C149-3164-4179-B622-5AC8C55BF069}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pioneer.Logs.Samples.AspNetCore", "..\samples\Pioneer.Logs.Samples.AspNetCore\Pioneer.Logs.Samples.AspNetCore.csproj", "{B54F4818-1C1A-43F8-B81B-CBAB6897F38E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,12 @@ Global
 		{CF627893-E4B5-4688-83F4-1DBB2C92210C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF627893-E4B5-4688-83F4-1DBB2C92210C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF627893-E4B5-4688-83F4-1DBB2C92210C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDA3C149-3164-4179-B622-5AC8C55BF069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDA3C149-3164-4179-B622-5AC8C55BF069}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDA3C149-3164-4179-B622-5AC8C55BF069}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDA3C149-3164-4179-B622-5AC8C55BF069}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B54F4818-1C1A-43F8-B81B-CBAB6897F38E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B54F4818-1C1A-43F8-B81B-CBAB6897F38E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +48,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3185DC26-2748-4EEF-ADE8-EAFFA408942B} = {A224A00E-5F2D-49BC-B371-DA64221064D2}
 		{CF627893-E4B5-4688-83F4-1DBB2C92210C} = {E97BBBF4-199B-4AA5-AF01-5A18C5CF9076}
+		{FDA3C149-3164-4179-B622-5AC8C55BF069} = {A224A00E-5F2D-49BC-B371-DA64221064D2}
+		{B54F4818-1C1A-43F8-B81B-CBAB6897F38E} = {A224A00E-5F2D-49BC-B371-DA64221064D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BF0A2682-E42C-4235-BBE3-F8BE56D00DDF}
