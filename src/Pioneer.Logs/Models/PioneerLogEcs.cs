@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Pioneer.Logs.Models 
@@ -68,9 +69,20 @@ namespace Pioneer.Logs.Models
         public PioneerLogLog Log { get; set; } = new PioneerLogLog();
 
         /// <summary>
+        /// Fields related to distributed tracing.
+        /// </summary>
+        public PioneerLogTracing Tracing { get; set; } = new PioneerLogTracing();
+
+        /// <summary>
         /// Fields to describe the user relevant to the event. 
         /// </summary>
         public PioneerLogUser User { get; set; } = new PioneerLogUser();
+
+        /// <summary>
+        /// Non ecs standard
+        /// </summary>
+        [JsonProperty(PropertyName = "custom_info")]
+        public Dictionary<string, object> CustomInfo { get; set; } = new Dictionary<string, object>();
 
         /// <summary>
         /// Fields to describe a browser user_agent string.
@@ -122,7 +134,7 @@ namespace Pioneer.Logs.Models
         /// <summary>
         /// Unique container id.
         /// </summary>
-        public string Ip { get; set; }
+        public string Id { get; set; }
     }
 
     /// <summary>
@@ -227,6 +239,28 @@ namespace Pioneer.Logs.Models
         /// Full path to the log file this event came from
         /// </summary>
         public string Path { get; set; }
+    }
+
+    /// <summary>
+    /// Fields related to distributed tracing.
+    /// </summary>
+    public class PioneerLogTracing
+    {
+        /// <summary>
+        /// A transaction is the highest level of work measured within a service, such as a request to a server.
+        /// </summary>
+        public PioneerLogTracingTransaction Transaction { get; set; } = new PioneerLogTracingTransaction();
+    }
+
+    /// <summary>
+    /// A transaction is the highest level of work measured within a service, such as a request to a server.
+    /// </summary>
+    public class PioneerLogTracingTransaction
+    {
+        /// <summary>
+        /// Unique identifier of the transaction within the scope of its trace.
+        /// </summary>
+        public string Id { get; set;}
     }
 
     /// <summary>

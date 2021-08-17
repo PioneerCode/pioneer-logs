@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using Microsoft.Extensions.Configuration;
 using Pioneer.Logs.Models;
 using static System.String;
 
 namespace Pioneer.Logs.Tubs.NetCoreConsole
 {
+
     /// <summary>
     /// .NET Core Windows Console app logging wrapper.
     /// </summary>
@@ -33,8 +35,16 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         {
             if (Configuration.Usage.WriteToFile || forceWriteToFile)
             {
-                var details = GetTubDetail(message, additionalInfo);
-                PioneerLogger.WriteUsage(details);
+                if (Configuration.MapToEcs)
+                {
+                    var details = GetTubDetail(message, additionalInfo);
+                    PioneerLogger.WriteUsage(details);
+                }
+                else
+                {
+                    var details = GetTubEcsDetail(message, LevelEnum.Usage, additionalInfo);
+                    PioneerLogger.WriteUsage(details);
+                }
             }
 
             if (Configuration.Usage.WriteToConsole)
@@ -54,8 +64,17 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         {
             if (Configuration.Diagnostics.WriteToFile || forceWriteToFile)
             {
-                var details = GetTubDetail(message, additionalInfo);
-                PioneerLogger.WriteDiagnostic(details);
+                if (Configuration.MapToEcs)
+                {
+
+                    var details = GetTubDetail(message, additionalInfo);
+                    PioneerLogger.WriteDiagnostic(details);
+                }
+                else
+                {
+                    var details = GetTubEcsDetail(message, LevelEnum.Diagnostic, additionalInfo);
+                    PioneerLogger.WriteDiagnostic(details);
+                }
             }
 
             if (Configuration.Diagnostics.WriteToConsole)
@@ -74,11 +93,26 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         {
             if (Configuration.Errors.WriteToFile || forceWriteToFile)
             {
-                var details = GetTubDetail(null);
-                details.Exception = ex;
-                PioneerLogger.WriteError(details);
+                if (Configuration.MapToEcs)
+                {
+                    var details = GetTubDetail(null);
+                    details.Exception = ex;
+                    PioneerLogger.WriteError(details);
+                }
+                else
+                {
+                    var details = GetTubEcsDetail(null, LevelEnum.Error);
+                    details.Error = new PioneerLogError
+                    {
+                        Code = ex.HResult.ToString(),
+                        Message = ex.Message,
+                        StackTrace = ex.StackTrace,
+                        Type = ex.ToString()
+                    };
+                    PioneerLogger.WriteError(details);
+                }
             }
-   
+
             if (Configuration.Errors.WriteToConsole)
             {
                 PioneerLogger.ConsoleLogger.Error("ERROR: " + ex);
@@ -96,8 +130,16 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         {
             if (Configuration.Errors.WriteToFile || forceWriteToFile)
             {
-                var details = GetTubDetail(message);
-                PioneerLogger.WriteError(details);
+                if (Configuration.MapToEcs)
+                {
+                    var details = GetTubDetail(message);
+                    PioneerLogger.WriteError(details);
+                }
+                else
+                {
+                    var details = GetTubEcsDetail(message, LevelEnum.Error);
+                    PioneerLogger.WriteError(details);
+                }
             }
 
             if (Configuration.Errors.WriteToConsole)
@@ -118,9 +160,24 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         {
             if (Configuration.Errors.WriteToFile || forceWriteToFile)
             {
-                var details = GetTubDetail(message);
-                details.Exception = ex;
-                PioneerLogger.WriteError(details);
+                if (Configuration.MapToEcs)
+                {
+                    var details = GetTubDetail(message);
+                    details.Exception = ex;
+                    PioneerLogger.WriteError(details);
+                }
+                else
+                {
+                    var details = GetTubEcsDetail(message, LevelEnum.Error);
+                    details.Error = new PioneerLogError
+                    {
+                        Code = ex.HResult.ToString(),
+                        Message = ex.Message,
+                        StackTrace = ex.StackTrace,
+                        Type = ex.ToString()
+                    };
+                    PioneerLogger.WriteError(details);
+                }
             }
 
             if (Configuration.Errors.WriteToConsole)
@@ -152,6 +209,55 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
                 SystemGenerateCorrelationId = IsNullOrEmpty(CorrelationId),
                 AdditionalInfo = additionalInfo ?? new Dictionary<string, object>(),
                 CreationTimestamp = DateTime.UtcNow
+            };
+
+            return detail;
+        }
+
+        /// <summary>
+        /// Get as <see cref="PioneerLogEcs"/> object pre-populated with details parsed
+        /// from the .NET Core environment.
+        /// </summary>
+        /// <param name="message">Accompanying message.</param>
+        /// <param name="additionalInfo">Dictionary of additional values.</param>
+        /// <param name="level"><see cref="LevelEnum"/></param>
+        private static PioneerLogEcs GetTubEcsDetail(string message,
+            LevelEnum level,
+            Dictionary<string, object> additionalInfo = null)
+        {
+            var detail = new PioneerLogEcs
+            {
+                Timestamp = DateTime.UtcNow,
+                Message = message,
+                CustomInfo = additionalInfo,
+                Labels = new PioneerLogLabels
+                {
+                    ApplicationName = Configuration.ApplicationName,
+                    ApplicationLayer = Configuration.ApplicationLayer
+                },
+                Event = new PioneerLogEvent
+                {
+                    Dataset = level.ToString()
+                },
+                Host = new PioneerLogHost
+                {
+                    Hostname = Dns.GetHostName(),
+                    Host = Environment.MachineName
+                },
+                Log = new PioneerLogLog
+                {
+                    File = new PioneerLogLogFile
+                    {
+                        Path = @"logs\pioneer-logs-" + level.ToString().ToLower() + "<timestamp>-.log"
+                    }
+                },
+                Tracing = new PioneerLogTracing
+                {
+                    Transaction = new PioneerLogTracingTransaction
+                    {
+                        Id = IsNullOrEmpty(CorrelationId) ? Guid.NewGuid().ToString() : CorrelationId
+                    }
+                }
             };
 
             return detail;
@@ -208,6 +314,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             // Bind Configuration
             Configuration.ApplicationName = builder.GetValue<string>("ApplicationName");
             Configuration.ApplicationLayer = builder.GetValue<string>("ApplicationLayer");
+            Configuration.MapToEcs = builder.GetValue<bool>("MapToEcs");
 
             if (builder.GetSection("Diagnostics") != null)
             {

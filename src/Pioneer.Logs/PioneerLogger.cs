@@ -6,6 +6,14 @@ using PioneerLog = Pioneer.Logs.Models.PioneerLog;
 
 namespace Pioneer.Logs
 {
+    public enum LevelEnum
+    {
+        Performance,
+        Usage,
+        Error,
+        Diagnostic
+    }
+
     /// <summary>
     /// Base Logger that sites on top of <see cref="Serilog"/>
     /// </summary>
@@ -56,10 +64,20 @@ namespace Pioneer.Logs
             PerformanceLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
         }
 
+        public static void WritePerf(PioneerLogEcs infoToLog)
+        {
+            PerformanceLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
+        }
+
         /// <summary>
         /// What features are use most?
         /// </summary>
         public static void WriteUsage(PioneerLog infoToLog)
+        {
+            UsageLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
+        }
+
+        public static void WriteUsage(PioneerLogEcs infoToLog)
         {
             UsageLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
         }
@@ -72,10 +90,20 @@ namespace Pioneer.Logs
             ErrorLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
         }
 
+        public static void WriteError(PioneerLogEcs infoToLog)
+        {
+            ErrorLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
+        }
+
         /// <summary>
         /// Ad-hoc trouble shooting
         /// </summary>
         public static void WriteDiagnostic(PioneerLog infoToLog)
+        {
+            DiagnosticLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
+        }
+
+        public static void WriteDiagnostic(PioneerLogEcs infoToLog)
         {
             DiagnosticLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
         }

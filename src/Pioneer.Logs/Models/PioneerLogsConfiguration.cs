@@ -23,6 +23,12 @@ namespace Pioneer.Logs.Models
         /// </summary>
         public string ApplicationLayer { get; set; } = "Pioneer Logs Layer";
 
+        /// <summary>
+        /// Need to map to ECS? Set this to true.
+        /// https://www.elastic.co/guide/en/ecs/current/index.html
+        /// </summary>
+        public bool MapToEcs { get; set; } = false;
+
         public Diagnostics Diagnostics { get; set; } = new Diagnostics();
         public Usage Usage { get; set; } = new Usage();
         public Errors Errors { get; set; } = new Errors();
