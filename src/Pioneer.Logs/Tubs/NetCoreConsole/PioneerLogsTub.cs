@@ -247,7 +247,7 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
                 {
                     File = new PioneerLogLogFile
                     {
-                        Path = @"logs\pioneer-logs-" + level.ToString().ToLower() + "<timestamp>-.log"
+                        Path = @"logs\pioneer-logs-" + level.ToString().ToLower() + "-timestamp-.log"
                     }
                 },
                 Tracing = new PioneerLogTracing
