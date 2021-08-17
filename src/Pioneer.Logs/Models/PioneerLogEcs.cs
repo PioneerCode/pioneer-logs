@@ -44,6 +44,12 @@ namespace Pioneer.Logs.Models
         public PioneerLogContainer Container { get; set; } = new PioneerLogContainer();
 
         /// <summary>
+        /// Non ecs standard
+        /// </summary>
+        [JsonProperty(PropertyName = "custom_info")]
+        public Dictionary<string, object> CustomInfo { get; set; } = new Dictionary<string, object>();
+
+        /// <summary>
         /// Fields about error
         /// </summary>
         public PioneerLogError Error { get; set; } = new PioneerLogError();
@@ -82,7 +88,7 @@ namespace Pioneer.Logs.Models
         /// Non ecs standard
         /// </summary>
         [JsonProperty(PropertyName = "custom_info")]
-        public Dictionary<string, object> CustomInfo { get; set; } = new Dictionary<string, object>();
+        public PioneerLogPerformance Performance { get; set; } = new PioneerLogPerformance();
 
         /// <summary>
         /// Fields to describe a browser user_agent string.
@@ -239,6 +245,17 @@ namespace Pioneer.Logs.Models
         /// Full path to the log file this event came from
         /// </summary>
         public string Path { get; set; }
+    }
+
+    /// <summary>
+    /// Details about performance
+    /// </summary>
+    public class PioneerLogPerformance
+    {
+        /// <summary>
+        /// Elapsed Milliseconds of performance tracking
+        /// </summary>
+        public long ElapsedMilliseconds { get; set; }
     }
 
     /// <summary>

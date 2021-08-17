@@ -37,12 +37,12 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             {
                 if (Configuration.MapToEcs)
                 {
-                    var details = GetTubDetail(message, additionalInfo);
+                    var details = GetTubEcsDetail(message, LevelEnum.Usage, additionalInfo);
                     PioneerLogger.WriteUsage(details);
                 }
                 else
                 {
-                    var details = GetTubEcsDetail(message, LevelEnum.Usage, additionalInfo);
+                    var details = GetTubDetail(message, additionalInfo);
                     PioneerLogger.WriteUsage(details);
                 }
             }
@@ -66,13 +66,12 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             {
                 if (Configuration.MapToEcs)
                 {
-
-                    var details = GetTubDetail(message, additionalInfo);
+                    var details = GetTubEcsDetail(message, LevelEnum.Diagnostic, additionalInfo);
                     PioneerLogger.WriteDiagnostic(details);
                 }
                 else
                 {
-                    var details = GetTubEcsDetail(message, LevelEnum.Diagnostic, additionalInfo);
+                    var details = GetTubDetail(message, additionalInfo);
                     PioneerLogger.WriteDiagnostic(details);
                 }
             }
@@ -95,12 +94,6 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             {
                 if (Configuration.MapToEcs)
                 {
-                    var details = GetTubDetail(null);
-                    details.Exception = ex;
-                    PioneerLogger.WriteError(details);
-                }
-                else
-                {
                     var details = GetTubEcsDetail(null, LevelEnum.Error);
                     details.Error = new PioneerLogError
                     {
@@ -109,6 +102,12 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
                         StackTrace = ex.StackTrace,
                         Type = ex.ToString()
                     };
+                    PioneerLogger.WriteError(details);
+                }
+                else
+                {
+                    var details = GetTubDetail(null);
+                    details.Exception = ex;
                     PioneerLogger.WriteError(details);
                 }
             }
@@ -132,12 +131,12 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             {
                 if (Configuration.MapToEcs)
                 {
-                    var details = GetTubDetail(message);
+                    var details = GetTubEcsDetail(message, LevelEnum.Error);
                     PioneerLogger.WriteError(details);
                 }
                 else
                 {
-                    var details = GetTubEcsDetail(message, LevelEnum.Error);
+                    var details = GetTubDetail(message);
                     PioneerLogger.WriteError(details);
                 }
             }
@@ -162,12 +161,6 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
             {
                 if (Configuration.MapToEcs)
                 {
-                    var details = GetTubDetail(message);
-                    details.Exception = ex;
-                    PioneerLogger.WriteError(details);
-                }
-                else
-                {
                     var details = GetTubEcsDetail(message, LevelEnum.Error);
                     details.Error = new PioneerLogError
                     {
@@ -176,6 +169,12 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
                         StackTrace = ex.StackTrace,
                         Type = ex.ToString()
                     };
+                    PioneerLogger.WriteError(details);
+                }
+                else
+                {
+                    var details = GetTubDetail(message);
+                    details.Exception = ex;
                     PioneerLogger.WriteError(details);
                 }
             }
@@ -269,7 +268,10 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         /// <param name="message">Accompanying message.</param>
         public static void StartPerformanceTracker(string message = null)
         {
-            Tracker = new PioneerLogsPerformanceTracker(GetTubDetail(message));
+            Tracker = Configuration.MapToEcs ?
+                new PioneerLogsPerformanceTracker(GetTubEcsDetail(message, LevelEnum.Performance)) :
+                new PioneerLogsPerformanceTracker(GetTubDetail(message));
+
             var st = new StackTrace();
             TrackerStartingMethodName = st.GetFrame(1).GetMethod().Name;
         }
@@ -281,15 +283,30 @@ namespace Pioneer.Logs.Tubs.NetCoreConsole
         public static void StopPerformanceTracker(bool forceWriteToFile = false)
         {
             var write = Configuration.Performance.WriteToFile || forceWriteToFile;
-            var log = Tracker.Stop(write);
-            Tracker = null;
 
-            if (Configuration.Performance.WriteToConsole)
+            if (Configuration.MapToEcs)
             {
-                var st = new StackTrace();
-                PioneerLogger.ConsoleLogger.Information(
-                    $"PERF: Started at {TrackerStartingMethodName} and ended in {st.GetFrame(1).GetMethod().Name} - {log.PerformanceElapsedMilliseconds} ms");
+                var log = Tracker.StopEcs(write);
+
+                if (Configuration.Performance.WriteToConsole)
+                {
+                    var st = new StackTrace();
+                    PioneerLogger.ConsoleLogger.Information(
+                        $"PERF: Started at {TrackerStartingMethodName} and ended in {st.GetFrame(1).GetMethod().Name} - {log.Performance.ElapsedMilliseconds} ms");
+                }
             }
+            else
+            {
+                var log = Tracker.Stop(write);
+
+                if (Configuration.Performance.WriteToConsole)
+                {
+                    var st = new StackTrace();
+                    PioneerLogger.ConsoleLogger.Information(
+                        $"PERF: Started at {TrackerStartingMethodName} and ended in {st.GetFrame(1).GetMethod().Name} - {log.PerformanceElapsedMilliseconds} ms");
+                }
+            }
+  
 
             TrackerStartingMethodName = Empty;
         }
