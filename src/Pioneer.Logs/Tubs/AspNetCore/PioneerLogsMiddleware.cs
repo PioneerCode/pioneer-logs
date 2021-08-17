@@ -16,11 +16,9 @@ namespace Pioneer.Logs.Tubs.AspNetCore
     public class PioneerLogsMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly PioneerLogsConfiguration _configuration;
 
-        public PioneerLogsMiddleware(RequestDelegate next, IOptions<PioneerLogsConfiguration> configuration)
+        public PioneerLogsMiddleware(RequestDelegate next)
         {
-            _configuration = configuration.Value;
             _next = next;
         }
 
