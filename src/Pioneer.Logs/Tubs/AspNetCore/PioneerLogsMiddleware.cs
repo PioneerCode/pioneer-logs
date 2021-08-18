@@ -4,9 +4,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Pioneer.Logs.Models;
 
 namespace Pioneer.Logs.Tubs.AspNetCore
 {
@@ -16,11 +14,9 @@ namespace Pioneer.Logs.Tubs.AspNetCore
     public class PioneerLogsMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly PioneerLogsConfiguration _configuration;
 
-        public PioneerLogsMiddleware(RequestDelegate next, IOptions<PioneerLogsConfiguration> configuration)
+        public PioneerLogsMiddleware(RequestDelegate next)
         {
-            _configuration = configuration.Value;
             _next = next;
         }
 
@@ -32,11 +28,11 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(httpContext, ex);
+                await Invoke(httpContext, ex);
             }
         }
 
-        private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private static async Task Invoke(HttpContext context, Exception ex)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

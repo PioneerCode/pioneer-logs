@@ -25,7 +25,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                 SetLoggers(configuration);
             }
 
-            app.UseMiddleware<PioneerLogsMiddleware>();
+            app.UseMiddleware<PioneerLogsMiddleware>(); // < 5.0
         }
 
         /// <summary>

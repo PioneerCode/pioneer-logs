@@ -2,10 +2,19 @@
 using Pioneer.Logs.Models;
 using Serilog;
 using Serilog.Events;
+using System.Text.Json;
 using PioneerLog = Pioneer.Logs.Models.PioneerLog;
 
 namespace Pioneer.Logs
 {
+    public enum LevelEnum
+    {
+        Performance,
+        Usage,
+        Error,
+        Diagnostic
+    }
+
     /// <summary>
     /// Base Logger that sites on top of <see cref="Serilog"/>
     /// </summary>
@@ -53,7 +62,12 @@ namespace Pioneer.Logs
         /// </summary>
         public static void WritePerf(PioneerLog infoToLog)
         {
-            PerformanceLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
+            PerformanceLogger.Write(LogEventLevel.Information, "{@PioneerLog}", JsonSerializer.Serialize(infoToLog));
+        }
+
+        public static void WritePerf(PioneerLogEcs infoToLog)
+        {
+            PerformanceLogger.Write(LogEventLevel.Information, "{@PioneerLog}", JsonSerializer.Serialize(infoToLog));
         }
 
         /// <summary>
@@ -61,7 +75,12 @@ namespace Pioneer.Logs
         /// </summary>
         public static void WriteUsage(PioneerLog infoToLog)
         {
-            UsageLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
+            UsageLogger.Write(LogEventLevel.Information, "{@PioneerLog}", JsonSerializer.Serialize(infoToLog));
+        }
+
+        public static void WriteUsage(PioneerLogEcs infoToLog)
+        {
+            UsageLogger.Write(LogEventLevel.Information, "{@PioneerLog}", JsonSerializer.Serialize(infoToLog));
         }
 
         /// <summary>
@@ -69,7 +88,12 @@ namespace Pioneer.Logs
         /// </summary>
         public static void WriteError(PioneerLog infoToLog)
         {
-            ErrorLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
+            ErrorLogger.Write(LogEventLevel.Information, "{@PioneerLog}", JsonSerializer.Serialize(infoToLog));
+        }
+
+        public static void WriteError(PioneerLogEcs infoToLog)
+        {
+            ErrorLogger.Write(LogEventLevel.Information, "{@PioneerLog}", JsonSerializer.Serialize(infoToLog));
         }
 
         /// <summary>
@@ -77,7 +101,12 @@ namespace Pioneer.Logs
         /// </summary>
         public static void WriteDiagnostic(PioneerLog infoToLog)
         {
-            DiagnosticLogger.Write(LogEventLevel.Information, "{@PioneerLog}", infoToLog);
+            DiagnosticLogger.Write(LogEventLevel.Information, "{@PioneerLog}", JsonSerializer.Serialize(infoToLog));
+        }
+
+        public static void WriteDiagnostic(PioneerLogEcs infoToLog)
+        {
+            DiagnosticLogger.Write(LogEventLevel.Information, "{@PioneerLog}", JsonSerializer.Serialize(infoToLog));
         }
 
         /// <summary>

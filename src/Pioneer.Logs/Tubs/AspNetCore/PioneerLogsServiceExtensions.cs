@@ -25,6 +25,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
             PioneerLogsTub.Configuration.ApplicationName = configuration.GetValue<string>("ApplicationName");
             PioneerLogsTub.Configuration.ApplicationLayer = configuration.GetValue<string>("ApplicationLayer");
+            PioneerLogsTub.Configuration.MapToEcs = configuration.GetValue<bool>("MapToEcs");
 
             if (configuration.GetSection("Diagnostics") != null)
             {
