@@ -249,26 +249,23 @@ namespace Pioneer.Logs.Models
     public class PioneerLogHttpRequest
     {
         /// <summary>
-        /// 
+        /// Referrer for this HTTP request.
         /// </summary>
         [JsonPropertyName("referrer")]
         public string Referrer { get; set; }
 
         /// <summary>
-        /// 
+        /// Mime type of the body of the request.
         /// </summary>
         [JsonPropertyName("mime_type")]
         public string MimeType { get; set; }
 
         /// <summary>
-        /// 
+        /// HTTP request method.
         /// </summary>
         [JsonPropertyName("method")]
         public string Method { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [JsonPropertyName("body")]
         public PioneerLogHttpRequestBody Body { get; set; }
     }
@@ -276,13 +273,13 @@ namespace Pioneer.Logs.Models
     public class PioneerLogHttpRequestBody
     {
         /// <summary>
-        /// 
+        /// Size in bytes of the request body.
         /// </summary>
         [JsonPropertyName("bytes")]
         public long? Bytes { get; set; }
 
         /// <summary>
-        /// 
+        /// The full HTTP request body.
         /// </summary>
         [JsonPropertyName("content")]
         public string Content { get; set; }
@@ -291,20 +288,17 @@ namespace Pioneer.Logs.Models
     public class PioneerLogHttpResponse
     {
         /// <summary>
-        /// 
+        /// HTTP response status code.
         /// </summary>
         [JsonPropertyName("status_code")]
         public int StatusCode { get; set; }
 
         /// <summary>
-        /// 
+        /// Mime type of the body of the response.
         /// </summary>
         [JsonPropertyName("mime_type")]
         public string MimeType { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [JsonPropertyName("body")]
         public PioneerLogHttpResponseBody Body { get; set; }
     }
@@ -312,13 +306,13 @@ namespace Pioneer.Logs.Models
     public class PioneerLogHttpResponseBody
     {
         /// <summary>
-        /// 
+        /// Size in bytes of the response body.
         /// </summary>
         [JsonPropertyName("bytes")]
         public long? Bytes { get; set; }
 
         /// <summary>
-        /// 
+        /// The full HTTP response body.
         /// </summary>
         [JsonPropertyName("content")]
         public string Content { get; set; }
@@ -370,6 +364,7 @@ namespace Pioneer.Logs.Models
 
     /// <summary>
     /// Details about performance
+    /// Non ecs
     /// </summary>
     public class PioneerLogPerformance
     {
