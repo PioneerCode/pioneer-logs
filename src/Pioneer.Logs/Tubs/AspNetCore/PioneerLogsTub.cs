@@ -108,7 +108,13 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                 if (Configuration.MapToEcs)
                 {
                     var details = GetTubEcsDetail(null, LevelEnum.Error, context, additionalInfo);
-                    // details.Exception = ex;
+                    details.Error = new PioneerLogError
+                    {
+                        Code = ex.HResult.ToString(),
+                        Message = ex.Message,
+                        StackTrace = ex.StackTrace,
+                        Type = ex.ToString()
+                    };
                     PioneerLogger.WriteError(details);
                 }
                 else
@@ -143,7 +149,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
             {
                 if (Configuration.MapToEcs)
                 {
-                    var details = GetTubEcsDetail(null, LevelEnum.Error, context, additionalInfo);
+                    var details = GetTubEcsDetail(message, LevelEnum.Error, context, additionalInfo);
                     PioneerLogger.WriteError(details);
                 }
                 else
