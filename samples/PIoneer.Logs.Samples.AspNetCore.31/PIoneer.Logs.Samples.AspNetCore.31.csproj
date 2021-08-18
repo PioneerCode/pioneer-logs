@@ -13,5 +13,9 @@
     <ProjectReference Include="..\..\src\Pioneer.Logs\Pioneer.Logs.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
+
 
 </Project>

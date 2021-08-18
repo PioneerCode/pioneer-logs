@@ -73,6 +73,12 @@ namespace Pioneer.Logs.Models
         public PioneerLogHost Host { get; set; } = new PioneerLogHost();
 
         /// <summary>
+        /// Fields describing an HTTP request.
+        /// </summary>
+        [JsonPropertyName("http")]
+        public PioneerLogHttp Http { get; set; } = new PioneerLogHttp();
+
+        /// <summary>
         /// Non ecs standard
         /// </summary>
         [JsonPropertyName("kubernetes")]
@@ -229,6 +235,96 @@ namespace Pioneer.Logs.Models
     }
 
     /// <summary>
+    /// Fields describing an HTTP request.
+    /// </summary>
+    public class PioneerLogHttp
+    {
+        [JsonPropertyName("request")] 
+        public PioneerLogHttpRequest Request { get; set; } = new PioneerLogHttpRequest();
+
+        [JsonPropertyName("response")]
+        public PioneerLogHttpResponse Response { get; set; } = new PioneerLogHttpResponse();
+    }
+
+    public class PioneerLogHttpRequest
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonPropertyName("referrer")]
+        public string Referrer { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonPropertyName("mime_type")]
+        public string MimeType { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonPropertyName("method")]
+        public string Method { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonPropertyName("body")]
+        public PioneerLogHttpRequestBody Body { get; set; }
+    }
+
+    public class PioneerLogHttpRequestBody
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonPropertyName("bytes")]
+        public long? Bytes { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonPropertyName("content")]
+        public string Content { get; set; }
+    }
+
+    public class PioneerLogHttpResponse
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonPropertyName("status_code")]
+        public int StatusCode { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonPropertyName("mime_type")]
+        public string MimeType { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonPropertyName("body")]
+        public PioneerLogHttpResponseBody Body { get; set; }
+    }
+
+    public class PioneerLogHttpResponseBody
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonPropertyName("bytes")]
+        public long? Bytes { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonPropertyName("content")]
+        public string Content { get; set; }
+    }
+
+    /// <summary>
     /// Fields breaking Kubernetes Pod if applicable.
     /// Non ecs standard
     /// </summary>
@@ -350,7 +446,7 @@ namespace Pioneer.Logs.Models
     public class PioneerLogUserAgent
     {
         /// <summary>
-        /// Name of the device
+        /// Name of the user agent.
         /// </summary>
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -382,5 +478,4 @@ namespace Pioneer.Logs.Models
         [JsonPropertyName("name")]
         public string Name { get; set; }
     }
-
 }
