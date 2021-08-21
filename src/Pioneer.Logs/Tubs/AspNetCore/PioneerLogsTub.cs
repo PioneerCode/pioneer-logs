@@ -264,7 +264,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
         private static void GetRequestData(PioneerLogEcs detail, HttpContext context)
         {
-            if (context.Request == null) 
+            if (context.Request == null)
                 return;
 
             detail.Labels.ApplicatoinLocation = context.Request.Path;
@@ -356,27 +356,31 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
         private static void GetUserData(PioneerLogEcs detail, HttpContext context)
         {
-            var userId = "";
-            var userName = "";
+            if (context == null)
+                return;
+
+            string userId = null;
+            string userName = null;
+
             var user = context.User;
 
-            if (user != null)
+            if (user?.Claims == null)
+                return;
+
+            var i = 1; // i included in dictionary key to ensure uniqueness
+            foreach (var claim in user.Claims)
             {
-                var i = 1; // i included in dictionary key to ensure uniqueness
-                foreach (var claim in user.Claims)
+                switch (claim.Type)
                 {
-                    switch (claim.Type)
-                    {
-                        case ClaimTypes.NameIdentifier:
-                            userId = claim.Value;
-                            break;
-                        case "name":
-                            userName = claim.Value;
-                            break;
-                        default:
-                            detail.CustomInfo.Add($"UserClaim-{i++}-{claim.Type}", claim.Value);
-                            break;
-                    }
+                    case ClaimTypes.NameIdentifier:
+                        userId = claim.Value;
+                        break;
+                    case "name":
+                        userName = claim.Value;
+                        break;
+                    default:
+                        detail.CustomInfo.Add($"UserClaim-{i++}-{claim.Type}", claim.Value);
+                        break;
                 }
             }
 
