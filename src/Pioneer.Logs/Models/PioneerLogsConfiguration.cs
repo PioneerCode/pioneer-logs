@@ -24,6 +24,13 @@ namespace Pioneer.Logs.Models
         public string ApplicationLayer { get; set; } = "Pioneer Logs Layer";
 
         /// <summary>
+        /// What version of the Application did this derive from?
+        ///
+        /// Typically parsed from appSettings. 
+        /// </summary>
+        public string ApplicationLayerVersion { get; set; } = "0.0.0";
+
+        /// <summary>
         /// Need to map to ECS? Set this to true.
         /// https://www.elastic.co/guide/en/ecs/current/index.html
         /// </summary>

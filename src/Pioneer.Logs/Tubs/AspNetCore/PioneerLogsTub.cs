@@ -213,7 +213,8 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                 Labels = new PioneerLogLabels
                 {
                     ApplicationName = Configuration.ApplicationName,
-                    ApplicationLayer = Configuration.ApplicationLayer
+                    ApplicationLayer = Configuration.ApplicationLayer,
+                    ApplicationLayerVersion =
                 },
                 Event = new PioneerLogEvent
                 {
