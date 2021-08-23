@@ -214,7 +214,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                 {
                     ApplicationName = Configuration.ApplicationName,
                     ApplicationLayer = Configuration.ApplicationLayer,
-                    ApplicationLayerVersion =
+                    ApplicationLayerVersion = Configuration.ApplicationLayerVersion
                 },
                 Event = new PioneerLogEvent
                 {
