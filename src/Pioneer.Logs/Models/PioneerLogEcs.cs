@@ -133,6 +133,12 @@ namespace Pioneer.Logs.Models
         public string ApplicationLayer { get; set; }
 
         /// <summary>
+        /// Where version of the Application Layer derive from
+        /// </summary>
+        [JsonPropertyName("application_layer_version")]
+        public string ApplicationLayerVersion { get; set; }
+
+        /// <summary>
         /// Where did this derive from in the Application Layer
         /// </summary>
         [JsonPropertyName("application_location")]
