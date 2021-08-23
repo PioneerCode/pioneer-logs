@@ -97,17 +97,22 @@ export interface IPioneerLogLabels {
   /**
    * What application did this derive from?
    */
-  applicationName: string;
+  application_name: string;
 
   /**
    * What layer of the Application did this derive from?
    */
-  applicationLayer: string;
+  application_layer: string;
+
+  /**
+   * Where version of the Application Layer derive from
+   */
+  application_layer_version: string;
 
   /**
    * Where did this derive from in the Application Layer?
    */
-  applicationLocation: string;
+  application_location: string;
 }
 
 /**
