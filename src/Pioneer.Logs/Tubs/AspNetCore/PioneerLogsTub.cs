@@ -357,7 +357,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
         private static void GetUserData(PioneerLogEcs detail, HttpContext context)
         {
-            if (context == null || context.User == null || context.User.Claims == null)
+            if (context == null || context.User == null || context.User.Claims == null || detail == null)
                 return;
 
             string userId = null;
@@ -380,6 +380,8 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                         userName = claim.Value;
                         break;
                     default:
+                        if (detail.CustomInfo == null)
+                            detail.CustomInfo = new Dictionary<string, object>();
                         detail.CustomInfo.Add($"UserClaim-{i++}-{claim.Type}", claim.Value);
                         break;
                 }
