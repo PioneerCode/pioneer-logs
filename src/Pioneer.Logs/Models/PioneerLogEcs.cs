@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
-namespace Pioneer.Logs.Models 
+namespace Pioneer.Logs.Models
 {
     /// <summary>
     /// All fields defined directly at the root of the events
@@ -245,7 +245,7 @@ namespace Pioneer.Logs.Models
     /// </summary>
     public class PioneerLogHttp
     {
-        [JsonPropertyName("request")] 
+        [JsonPropertyName("request")]
         public PioneerLogHttpRequest Request { get; set; } = new PioneerLogHttpRequest();
 
         [JsonPropertyName("response")]
@@ -402,7 +402,7 @@ namespace Pioneer.Logs.Models
         /// Unique identifier of the transaction within the scope of its trace.
         /// </summary>
         [JsonPropertyName("id")]
-        public string Id { get; set;}
+        public string Id { get; set; }
     }
 
     /// <summary>
@@ -432,7 +432,7 @@ namespace Pioneer.Logs.Models
         /// List of user roles
         /// </summary>
         [JsonPropertyName("roles")]
-        public string[] Roles { get; set; } = []
+        public string[] Roles { get; set; }
 
         /// <summary>
         /// User id
