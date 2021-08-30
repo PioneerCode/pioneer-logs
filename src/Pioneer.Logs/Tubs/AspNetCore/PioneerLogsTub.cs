@@ -357,7 +357,7 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
         private static void GetUserData(PioneerLogEcs detail, HttpContext context)
         {
-            if (context == null)
+            if (context == null || context.User == null || context.User.Claims == null)
                 return;
 
             string userId = null;
@@ -365,12 +365,12 @@ namespace Pioneer.Logs.Tubs.AspNetCore
 
             var user = context.User;
 
-            if (user?.Claims == null)
-                return;
-
             var i = 1; // i included in dictionary key to ensure uniqueness
             foreach (var claim in user.Claims)
             {
+                if (claim.Type == null)
+                    continue;
+
                 switch (claim.Type)
                 {
                     case ClaimTypes.NameIdentifier:
@@ -384,6 +384,9 @@ namespace Pioneer.Logs.Tubs.AspNetCore
                         break;
                 }
             }
+
+            if (detail.User == null)
+                detail.User = new PioneerLogUser();
 
             detail.User.Id = userId;
             detail.User.Name = userName;

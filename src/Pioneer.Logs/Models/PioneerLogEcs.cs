@@ -432,7 +432,7 @@ namespace Pioneer.Logs.Models
         /// List of user roles
         /// </summary>
         [JsonPropertyName("roles")]
-        public string[] Roles { get; set; }
+        public string[] Roles { get; set; } = []
 
         /// <summary>
         /// User id
